@@ -9,7 +9,8 @@
   "scripts": {
     "compile": "tsc",
     "build": "rm -rf rules && npm run compile",
-    "test": "tslint --test test/rules/**/*"
+    "test": "tslint --test test/rules/**/*",
+    "verify": "npm run build && npm run test"
   },
   "author": "",
   "license": "ISC",
