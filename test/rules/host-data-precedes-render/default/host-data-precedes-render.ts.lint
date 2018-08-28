@@ -1,0 +1,58 @@
+import { Component, Prop } from '@stencil/core';
+
+@Component({
+    tag: 'my-element-a'
+})
+export class ElementA {
+    someFunction() { }
+}
+
+@Component({
+    tag: 'my-element-a'
+})
+export class ElementA {
+    hostData() { }
+}
+
+@Component({
+    tag: 'my-element-a'
+})
+export class ElementA {
+    hostData() { }
+    render() { }
+}
+
+@Component({
+    tag: 'my-element-b'
+})
+export class ElementB {
+    @Prop() propA: string;
+    @Prop() propB: string;
+    @Prop() propC: string;
+
+    hostData() { }
+    render() { }
+}
+
+@Component({
+    tag: 'my-element-c'
+})
+export class ElementC {
+    render() { }
+    hostData() { }
+    ~~~~~~~~ [failure]
+}
+
+@Component({
+    tag: 'my-element-c'
+})
+export class ElementC {
+    hostData() { }
+    ~~~~~~~~ [failure]
+    @Prop() propA: string;
+    @Prop() propB: string;
+    @Prop() propC: string;
+    render() { }
+}
+
+[failure]: hostData should immediately precede the render method
