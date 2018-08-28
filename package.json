@@ -1,0 +1,21 @@
+{
+  "name": "tslint-stencil",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "compile": "tsc",
+    "build": "rm -rf rules && npm run compile",
+    "test": "tslint --test test/rules/**/*"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^10.9.2",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1"
+  }
+}
