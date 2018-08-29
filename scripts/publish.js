@@ -23,6 +23,8 @@ if (prerelease && !prereleaseType.match(/^(alpha|beta|rc)$/)) {
 async function run(command) {
     const result = await exec(command);
     
+    console.log(result.stdout);
+    
     if (!!result.code) {
         console.log(result.stdout);
         process.exit(1);
@@ -30,12 +32,13 @@ async function run(command) {
 }
 
 async function main() {
-    const version = `${semverType} ${prerelease ? '--preid=' + prereleaseType : ''}`;
+    const version = prerelease ? `pre${semverType} --preid=${prereleaseType}` : semverType;
     await run(`npm run verify`);
-    await run(`npm version ${version}`);
-    await run(`git push`);
-    await run(`git push --tags`);
-    await run(`npm publish`);
+    console.log(version)
+    // await run(`npm version ${version}`);
+    // await run(`git push`);
+    // await run(`git push --tags`);
+    // await run(`npm publish`);
 }
 
 main();
