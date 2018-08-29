@@ -1,0 +1,11 @@
+import { Component, Prop } from '@stencil/core';
+
+class NonComponent {
+    render() { }
+    someOtherMethod() { }
+}
+
+@Component({
+    tag: 'my-element-a'
+})
+export class ElementA { }
