@@ -2,8 +2,11 @@
 Contributes some helpful [tslint](https://github.com/palantir/tslint) rules for [Stencil](https://github.com/ionic-team/stencil) projects
 
 ## Rules
+- `one-component-per-file`
 - `render-as-final-method`
 - `host-data-precedes-render`
+- `watch-follows-prop`
+- `lifecycle-mirrors-call-order`
 
 ## Contributing
 Rules in the `src/` directory must be **camelCased** and end in **Rule**.
