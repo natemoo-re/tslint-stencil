@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 import * as Lint from "tslint";
-import { isIdentifierNamed } from './shared/utils';
+import { isComponentClass, isIdentifierNamed } from './shared/utils';
 
 type Options = {};
 
@@ -25,6 +25,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
 
     function cb(node: ts.Node): void {
         if (!ts.isClassDeclaration(node)) return;
+        if (!isComponentClass(node)) return;
 
         node.members.forEach((member, i) => {
             if (member.name && isIdentifierNamed(member, 'render')) {

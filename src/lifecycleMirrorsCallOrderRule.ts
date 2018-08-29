@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 import * as Lint from "tslint";
+import { isComponentClass } from './shared/utils';
 
 type Options = {};
 
@@ -25,6 +26,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
 
     function cb(node: ts.Node): void {
         if (!ts.isClassDeclaration(node)) return;
+        if (!isComponentClass(node)) return;
 
         const nodes = new Map<string, ts.Node>();
         const names: string[] = [];
