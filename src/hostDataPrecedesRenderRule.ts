@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 import * as Lint from "tslint";
-import { identifierNameIs } from './shared/utils';
+import { isIdentifierNamed } from './shared/utils';
 
 type Options = {};
 
@@ -27,8 +27,8 @@ function walk(ctx: Lint.WalkContext<Options>) {
         if (!ts.isClassDeclaration(node)) return;
 
         node.members.forEach((member, i) => {
-            if (member.name && identifierNameIs(member, 'hostData')) {
-                let render = node.members.findIndex(m => !!(m.name && identifierNameIs(m, 'render')))
+            if (member.name && isIdentifierNamed(member, 'hostData')) {
+                let render = node.members.findIndex(m => !!(m.name && isIdentifierNamed(m, 'render')));
                 if (render === -1) return;
 
                 if (render < i || render > i + 1) return ctx.addFailureAtNode(member.name, Rule.FAILURE_STRING);
