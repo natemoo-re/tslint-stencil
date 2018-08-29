@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "forceConsistentCasingInFileNames": true,
-        "newLine": "LF",
+        "downlevelIteration": true,
         "noEmitOnError": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": true,
@@ -10,12 +10,15 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "strictNullChecks": true,
-
         "module": "commonjs",
         "target": "es5",
         "sourceMap": true,
         "outDir": "rules",
-        "lib": ["es2015", "dom"]
+        "lib": [
+            "es2015",
+            "es2016.array.include",
+            "dom"
+        ]
     },
     "include": ["src/*.ts"]
 }
