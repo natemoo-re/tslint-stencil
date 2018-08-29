@@ -1,0 +1,12 @@
+.idea/
+thumbs.db
+*.log
+scripts/
+src/
+test/
+.editorconfig
+.gitignore
+.travis.yml
+tsconfig.json
+tsint.json
+!/rules
