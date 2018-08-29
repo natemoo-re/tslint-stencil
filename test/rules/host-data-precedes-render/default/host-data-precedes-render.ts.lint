@@ -1,5 +1,6 @@
 import { Component, Prop } from '@stencil/core';
 
+// Pass: No hostData or render
 @Component({
     tag: 'my-element-a'
 })
@@ -7,25 +8,28 @@ export class ElementA {
     someFunction() { }
 }
 
-@Component({
-    tag: 'my-element-a'
-})
-export class ElementA {
-    hostData() { }
-}
-
-@Component({
-    tag: 'my-element-a'
-})
-export class ElementA {
-    hostData() { }
-    render() { }
-}
-
+// Pass: hostData, but no render
 @Component({
     tag: 'my-element-b'
 })
 export class ElementB {
+    hostData() { }
+}
+
+// Pass: hostData immediately precedes render with only two members
+@Component({
+    tag: 'my-element-c'
+})
+export class ElementC {
+    hostData() { }
+    render() { }
+}
+
+// Pass: hostData immediately precedes render with other members
+@Component({
+    tag: 'my-element-d'
+})
+export class ElementD {
     @Prop() propA: string;
     @Prop() propB: string;
     @Prop() propC: string;
@@ -34,19 +38,21 @@ export class ElementB {
     render() { }
 }
 
+// Fail: hostData follows render with only two members
 @Component({
-    tag: 'my-element-c'
+    tag: 'my-element-e'
 })
-export class ElementC {
+export class ElementE {
     render() { }
     hostData() { }
     ~~~~~~~~ [failure]
 }
 
+// Fail: hostData precedes render by more than one
 @Component({
-    tag: 'my-element-c'
+    tag: 'my-element-f'
 })
-export class ElementC {
+export class ElementF {
     hostData() { }
     ~~~~~~~~ [failure]
     @Prop() propA: string;
