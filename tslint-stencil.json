@@ -1,0 +1,10 @@
+{
+    "rulesDirectory": "rules",
+    "rules": {
+        "one-component-per-file": false,
+        "render-as-final-method": false,
+        "host-data-precedes-render": false,
+        "watch-follows-prop": false,
+        "lifecycle-mirrors-call-order": false
+    }
+}
