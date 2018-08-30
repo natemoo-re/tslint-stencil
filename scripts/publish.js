@@ -1,6 +1,6 @@
 const { Spinner } = require('cli-spinner');
 const { run } = require('./shared/run');
-const { spawn } = require('./shared/spawn');
+// const { spawn } = require('./shared/spawn');
 const { verify } = require('./verify');
 const { version } = require('./version');
 const { red, green, bold } = require('colorette');
@@ -34,7 +34,11 @@ async function postVerify() {
     loading.stop(true);
     console.log(`${green('✔')} ${bold('Pushed to Git')}\n`);
 
-    spawn(`npm publish`);
+    loading.setSpinnerTitle('Publishing to NPM');
+    loading.start();
+    await run(`npm publish`);
+    loading.stop(true);
+    console.log(`${green('✔')} ${bold('Published to NPM')}\n`);
 }
 
 async function main() {
@@ -46,7 +50,13 @@ async function main() {
     
     const v = await version();
     if (!v) process.exit(0);
-    await run(`npm version ${v}`);
+    try {
+        await run(`npm version ${v}`);
+    } catch (e) {
+        console.log(`${red('✖')} Unable to execute ${green('npm version')}!`, red(`${e.stderr.split('\n')[0].replace('npm ERR! ', '')}`));
+        console.log();
+        process.exit(0);
+    }
     console.log();
 
     verified.then((result) => handleVerify(result))
