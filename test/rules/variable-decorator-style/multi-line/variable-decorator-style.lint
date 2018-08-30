@@ -1,0 +1,17 @@
+import { Component, Prop } from '@stencil/core';
+
+@Component({
+    tag: 'my-component'
+})
+export class ElementA {
+    
+    ownProp = false;
+
+    @Prop() mySingleProp: string;
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+
+    @Prop()
+    myMultiProp: string;
+}
+
+[failure]: Variable decorators should be multi-line

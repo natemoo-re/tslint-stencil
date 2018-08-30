@@ -1,0 +1,6 @@
+{
+    "rulesDirectory": ["../../../../rules"],
+    "rules": {
+        "variable-decorator-style": [true, "multi-line"]
+    }
+}
