@@ -1,5 +1,6 @@
 const { Spinner } = require('cli-spinner');
 const { run } = require('./shared/run');
+const { spawn } = require('./shared/spawn');
 const { verify } = require('./verify');
 const { version } = require('./version');
 const { red, green, bold } = require('colorette');
@@ -33,13 +34,7 @@ async function postVerify() {
     loading.stop(true);
     console.log(`${green('✔')} ${bold('Pushed to Git')}\n`);
 
-    loading.setSpinnerTitle('Publishing to NPM');
-    loading.start();
-    await run(`npm publish`);
-    loading.stop(true);
-    console.log(`${green('✔')} ${bold('Published to NPM')}\n`);
-
-    console.log();
+    spawn(`npm publish`);
 }
 
 async function main() {
