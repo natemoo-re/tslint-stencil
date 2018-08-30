@@ -9,7 +9,7 @@ async function commit() {
         .filter(x => x.trim())
         .map(x => (x.match(/^(?:feat|fix|docs|style|refactor|perf|test|chore)\((.*)\)/) || [false, false])[1])
         .filter(x => x);
-    console.dir(SCOPES);
+
     const TYPES = new Map([
         [ 'feat', 'A new feature' ],
         [ 'fix', 'A bug fix' ],
@@ -28,6 +28,8 @@ async function commit() {
             value: key
         })
     }
+    const scopeChoices = SCOPES.map(scope => ({ title: scope, value: scope }));
+    
     const { type, scope, subject } = await prompt([
         {
             type: 'select',
@@ -36,9 +38,10 @@ async function commit() {
             choices: typeChoices,
             initial: 0
         }, {
-            type: 'text',
+            type: 'autocomplete',
             name: 'scope',
-            message: 'Describe commit scope'
+            message: 'Describe commit scope',
+            choices: scopeChoices
         }, {
             type: 'text',
             name: 'subject',
