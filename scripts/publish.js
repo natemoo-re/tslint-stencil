@@ -1,44 +1,57 @@
-const { promisify } = require('util');
-const exec = promisify(require('child_process').exec);
+const { Spinner } = require('cli-spinner');
+const { verify } = require('./verify');
+const { version } = require('./version');
+const { red, green, bold } = require('colorette');
 
-const args = process.argv.slice(2);
-const semverType = args[0];
+const loading = new Spinner();
+loading.setSpinnerString(18);
+loading.setSpinnerTitle('Running tests');
 
-const prerelease = args.indexOf('--pre') >= 0;
-const prereleaseType = prerelease ? args[args.indexOf('--pre') + 1] : null;
+let pendingVerify = true;
 
+async function handleVerify({ success, output }) {
+    loading.stop(true);
 
-console.log(semverType);
-
-if (!semverType || !semverType.match(/^(major|minor|patch)$/)) {
-    console.log(`Usage: major|minor|patch`);
-    process.exit(1);
-}
-if (prerelease && !prereleaseType.match(/^(alpha|beta|rc)$/)) {
-    console.log(`Usage: major|minor|patch --pre [alpha|beta|rc]`);
-    process.exit(1);
-} 
-
-
-async function run(command) {
-    const result = await exec(command);
-    
-    console.log(result.stdout);
-    
-    if (!!result.code) {
-        console.log(result.stdout);
-        process.exit(1);
+    if (success) {
+        console.log(`${green('✔')} ${bold('All tests passed')}\n`);
+        console.log(output);
+    } else {
+        console.log(`${red('✖')} ${bold('Tests failed')}\n`);
+        console.log(output);
     }
+    console.log();
+
+    return (success) ? Promise.resolve() : Promise.reject();
+}
+
+async function postVerify() {
+    loading.setSpinnerTitle('Pushing to Git');
+    loading.start();
+    await run(`git push`);
+    await run(`git push --tags`);
+    loading.stop();
+
+    loading.setSpinnerTitle('Publishing to NPM');
+    loading.start();
+    await run(`npm publish`);
+    loading.stop();
 }
 
 async function main() {
-    const version = prerelease ? `pre${semverType} --preid=${prereleaseType}` : semverType;
-    await run(`npm run verify`);
-    console.log(version)
-    // await run(`npm version ${version}`);
-    // await run(`git push`);
-    // await run(`git push --tags`);
-    // await run(`npm publish`);
+    const verified = verify()
+        .then(args => {
+            pendingVerify = false;
+            return args;
+        })
+    
+    const v = await version();
+    if (!v) process.exit(0);
+    console.log();
+
+    verified.then((result) => handleVerify(result))
+        .then(() => postVerify())
+        .catch(() => process.exit());
+    if (pendingVerify) loading.start();
 }
 
 main();
