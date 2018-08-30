@@ -29,12 +29,16 @@ async function postVerify() {
     loading.start();
     await run(`git push`);
     await run(`git push --tags`);
-    loading.stop();
+    loading.stop(true);
+    console.log(`${green('✔')} ${bold('Pushed to Git')}\n`);
 
     loading.setSpinnerTitle('Publishing to NPM');
     loading.start();
     await run(`npm publish`);
-    loading.stop();
+    loading.stop(true);
+    console.log(`${green('✔')} ${bold('Published to NPM')}\n`);
+
+    console.log();
 }
 
 async function main() {
