@@ -11,7 +11,8 @@
     "build": "rm -rf rules && npm run compile",
     "test": "tslint --test test/rules/**/*",
     "verify": "npm run build && npm run test",
-    "publish": "node scripts/publish.js"
+    "publish": "node scripts/publish.js",
+    "commit": "node scripts/commit.js"
   },
   "author": "",
   "license": "ISC",
