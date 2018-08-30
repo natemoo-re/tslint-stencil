@@ -1,4 +1,5 @@
 const { Spinner } = require('cli-spinner');
+const { run } = require('./shared/run');
 const { verify } = require('./verify');
 const { version } = require('./version');
 const { red, green, bold } = require('colorette');
@@ -50,6 +51,7 @@ async function main() {
     
     const v = await version();
     if (!v) process.exit(0);
+    await run(`npm version ${v}`);
     console.log();
 
     verified.then((result) => handleVerify(result))
