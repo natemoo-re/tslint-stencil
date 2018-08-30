@@ -1,10 +1,13 @@
 {
     "rulesDirectory": "rules",
     "rules": {
+        "host-data-precedes-render": false,
+        "lifecycle-mirrors-call-order": false,
+        "method-decorator-style": false,
+        "no-stencil-prefix": false,
         "one-component-per-file": false,
         "render-as-final-method": false,
-        "host-data-precedes-render": false,
-        "watch-follows-prop": false,
-        "lifecycle-mirrors-call-order": false
+        "variable-decorator-style": false,
+        "watch-follows-prop": false
     }
 }
