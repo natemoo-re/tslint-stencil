@@ -36,6 +36,7 @@ async function postVerify() {
 
     loading.setSpinnerTitle('Publishing to NPM');
     loading.start();
+    // TODO this never finished even though the package gets published
     await run(`npm publish`);
     loading.stop(true);
     console.log(`${green('✔')} ${bold('Published to NPM')}\n`);
