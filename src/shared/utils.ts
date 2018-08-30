@@ -1,5 +1,25 @@
 import * as ts from 'typescript';
 
+export function evalText(text: string) {
+    const fnStr = `return ${text};`;
+    return new Function(fnStr)();
+}
+
+export interface GetDeclarationParameters {
+    <T>(decorator: ts.Decorator): [T];
+    <T, T1>(decorator: ts.Decorator): [T, T1];
+    <T, T1, T2>(decorator: ts.Decorator): [T, T1, T2];
+}
+export const getDeclarationParameters: GetDeclarationParameters = (decorator: ts.Decorator): any => {
+    if (!ts.isCallExpression(decorator.expression)) {
+        return [];
+    }
+
+    return decorator.expression.arguments.map((arg) => {
+        return evalText(arg.getText().trim());
+    });
+};
+
 export function isComponentClass(node: ts.Node): node is ts.ClassDeclaration {
     if (!ts.isClassDeclaration(node)) return false;
 
