@@ -28,7 +28,7 @@ async function commit() {
             value: key
         })
     }
-    const scopeChoices = SCOPES.map(scope => ({ title: scope, value: scope }));
+    const scopeChoices = Array.from(new Set(SCOPES)).map(scope => ({ title: scope, value: scope }));
     
     const { type, scope, subject } = await prompt([
         {
