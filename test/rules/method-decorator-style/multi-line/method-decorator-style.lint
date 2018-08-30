@@ -1,0 +1,26 @@
+import { Component, Listen, Method } from '@stencil/core';
+
+@Component({
+    tag: 'my-component'
+})
+export class ElementA {
+    
+    localMethod() { 
+        return false;
+    }
+
+    @Listen('click') mySingleMethod(): void { };
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+
+    @Listen('click') myMixedMethod(): void {
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    };
+~~~~~ [failure]
+    
+    @Method()
+    myMultiMethod(): string {
+        
+    };
+}
+
+[failure]: Component method decorators should be multi-line

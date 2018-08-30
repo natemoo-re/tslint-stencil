@@ -1,0 +1,23 @@
+import { Component, Prop } from '@stencil/core';
+
+@Component({
+    tag: 'my-component'
+})
+export class ElementA {
+    
+    
+    @Listen('click') mySingleMethod(): void { };
+
+    @Listen('click') myMixedMethod(): void {
+
+    };
+    
+    @Method()
+    ~~~~~~~~~
+    myMultiMethod(): string {
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    };
+~~~~~ [failure]
+}
+
+[failure]: Component method decorators should be inlined
