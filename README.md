@@ -14,9 +14,9 @@ Alternatively, you can extend the bare package and enable each [rule](#rules) on
 ```json
 {
     "extends": ["tslint-stencil"],
-    "rules": [
+    "rules": {
         "host-data-precedes-render": true
-    ]
+    }
 }
 ```
 
@@ -100,7 +100,7 @@ propName: string;
 
 
 ### `watch-follows-prop`
-Ensures that a @Watch() decorated method immediately follows the @Prop() or @State() that is watches
+Ensures that a @Watch() decorated method immediately follows the @Prop() or @State() that it watches
 
 **Invalid Usage**
 ```
