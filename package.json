@@ -25,7 +25,7 @@
     "type": "git",
     "url": "git+https://github.com/natemoo-re/tslint-stencil.git"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^10.9.2",
     "tslint": "^5.11.0",
