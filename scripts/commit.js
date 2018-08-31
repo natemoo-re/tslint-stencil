@@ -3,12 +3,12 @@ const { run } = require('./shared/run');
 const { dim } = require('colorette');
 
 async function commit() {
-    const commits = await run(`git log -n 25 --no-merges --format=%B`);
-    const SCOPES = commits
-        .split('\n')
-        .filter(x => x.trim())
-        .map(x => (x.match(/^(?:feat|fix|docs|style|refactor|perf|test|chore)\((.*)\)/) || [false, false])[1])
-        .filter(x => x);
+    // const commits = await run(`git log -n 25 --no-merges --format=%B`);
+    // const SCOPES = commits
+    //     .split('\n')
+    //     .filter(x => x.trim())
+    //     .map(x => (x.match(/^(?:feat|fix|docs|style|refactor|perf|test|chore)\((.*)\)/) || [false, false])[1])
+    //     .filter(x => x);
 
     const TYPES = new Map([
         [ 'feat', 'A new feature' ],
@@ -28,7 +28,8 @@ async function commit() {
             value: key
         })
     }
-    const scopeChoices = Array.from(new Set(SCOPES)).map(scope => ({ title: scope, value: scope }));
+
+    // const scopeChoices = Array.from(new Set(SCOPES)).map(scope => ({ title: scope, value: scope }));
     
     const { type, scope, subject } = await prompt([
         {
@@ -38,10 +39,9 @@ async function commit() {
             choices: typeChoices,
             initial: 0
         }, {
-            type: 'autocomplete',
+            type: 'text',
             name: 'scope',
-            message: 'Describe commit scope',
-            choices: scopeChoices
+            message: 'Describe commit scope'
         }, {
             type: 'text',
             name: 'subject',
@@ -53,11 +53,12 @@ async function commit() {
         }
     ])
 
+
     if (!type || !subject) {
         process.exit(0);
     }
 
-    const message = `${type}(${scope ? scope : ''}): ${subject}`;
+    const message = `${type}(${scope}): ${subject}`;
     return run(`git commit -m "${message}"`);
 }
 
