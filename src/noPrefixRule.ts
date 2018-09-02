@@ -2,14 +2,17 @@ import * as ts from "typescript";
 import * as Lint from "tslint";
 import { isComponentClass, hasDecoratorNamed, getDeclarationParameters } from './shared/utils';
 
-type Options = {};
+type Options = {
+    blocklist: string[]
+};
 
 export class Rule extends Lint.Rules.AbstractRule {
-    public static FAILURE_STRING = 'Avoid stencil-related prefixes in your components';
-    public static DISALLOWED_PREFIXES = ['st', 'stnl', 'stencil'];
+    public static FAILURE_STRING = 'Invalid tag prefix "%s"';
 
     public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
-        const options: Options = this.getOptions();
+        const options: Options = {
+            blocklist: this.getOptions().ruleArguments[0]
+        };
 
         return this.applyWithFunction(sourceFile, walk, options);
     }
@@ -28,7 +31,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
         if (!tag) return;
 
         let valid = true;
-        Rule.DISALLOWED_PREFIXES.forEach(prefix => {
+        ctx.options.blocklist.forEach(prefix => {
             if (valid) valid = !tag.startsWith(`${prefix}-`);
         })
 
@@ -40,7 +43,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
                 return name.indexOf('tag') > -1;
             }).pop();
             if (property) {
-                ctx.addFailureAtNode(property.getChildAt(2, ctx.sourceFile), Rule.FAILURE_STRING);
+                ctx.addFailureAtNode(property.getChildAt(2, ctx.sourceFile), Rule.FAILURE_STRING.replace('%s', tag.split('-')[0]));
             }
         }
         

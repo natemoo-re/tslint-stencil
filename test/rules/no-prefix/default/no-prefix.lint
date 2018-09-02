@@ -7,38 +7,38 @@ export class ElementA { }
 
 @Component({
     tag: 'stencil-component'
-         ~~~~~~~~~~~~~~~~~~~ [failure]
+         ~~~~~~~~~~~~~~~~~~~ [failure % ('stencil')]
 })
 export class StencilComponent { }
 
 @Component({
     tag: 'st-component'
-         ~~~~~~~~~~~~~~ [failure]
+         ~~~~~~~~~~~~~~ [failure % ('st')]
 })
 export class StComponent { }
 
 @Component({
     tag: 'stnl-component'
-         ~~~~~~~~~~~~~~~~ [failure]
+         ~~~~~~~~~~~~~~~~ [failure % ('stnl')]
 })
 export class StnlComponent { }
 
 @Component({
     'tag': 'stencil-component'
-           ~~~~~~~~~~~~~~~~~~~ [failure]
+           ~~~~~~~~~~~~~~~~~~~ [failure % ('stencil')]
 })
 export class StencilComponent { }
 
 @Component({
     "tag": 'stencil-component'
-           ~~~~~~~~~~~~~~~~~~~ [failure]
+           ~~~~~~~~~~~~~~~~~~~ [failure % ('stencil')]
 })
 export class StencilComponent { }
 
 @Component({
     [`tag`]: 'stencil-component'
-             ~~~~~~~~~~~~~~~~~~~ [failure]
+             ~~~~~~~~~~~~~~~~~~~ [failure % ('stencil')]
 })
 export class StencilComponent { }
 
-[failure]: Avoid stencil-related prefixes in your components
+[failure]: Invalid tag prefix "%s"

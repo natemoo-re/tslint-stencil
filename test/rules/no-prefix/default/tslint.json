@@ -1,6 +1,6 @@
 {
     "rulesDirectory": ["../../../../rules"],
     "rules": {
-        "no-stencil-prefix": true
+        "no-prefix": [true, ["st", "stnl", "stencil"]]
     }
 }
