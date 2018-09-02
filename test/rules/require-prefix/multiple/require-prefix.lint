@@ -1,0 +1,44 @@
+import { Component } from '@stencil/core';
+
+@Component({
+    tag: 'my-component'
+})
+export class ElementA { }
+
+@Component({
+    tag: 'stencil-component'
+         ~~~~~~~~~~~~~~~~~~~ [failure % ('stencil')]
+})
+export class StencilComponent { }
+
+@Component({
+    tag: 'st-component'
+         ~~~~~~~~~~~~~~ [failure % ('st')]
+})
+export class StComponent { }
+
+@Component({
+    tag: 'stnl-component'
+         ~~~~~~~~~~~~~~~~ [failure % ('stnl')]
+})
+export class StnlComponent { }
+
+@Component({
+    'tag': 'stencil-component'
+           ~~~~~~~~~~~~~~~~~~~ [failure % ('stencil')]
+})
+export class StencilComponent { }
+
+@Component({
+    "tag": 'stencil-component'
+           ~~~~~~~~~~~~~~~~~~~ [failure % ('stencil')]
+})
+export class StencilComponent { }
+
+@Component({
+    [`tag`]: 'stencil-component'
+             ~~~~~~~~~~~~~~~~~~~ [failure % ('stencil')]
+})
+export class StencilComponent { }
+
+[failure]: Invalid tag prefix "%s"
