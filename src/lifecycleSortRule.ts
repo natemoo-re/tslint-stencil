@@ -2,10 +2,11 @@ import * as ts from "typescript";
 import * as Lint from "tslint";
 import { isComponentClass } from './shared/utils';
 
-type Options = {};
+type Options = 'call-order' | 'alphabetical';
 
 export class Rule extends Lint.Rules.AbstractRule {
-    public static FAILURE_STRING = 'Component lifecycle methods should be ordered according to their call order';
+    public static CALL_ORDER_FAILURE_STRING = 'Component lifecycle methods should be sorted according to their call order';
+    public static ALPHABETICAL_FAILURE_STRING = 'Component lifecycle methods should be sorted alphabetically';
     public static LIFECYCLE_METHODS = [
         'componentWillLoad',
         'componentDidLoad',
@@ -15,7 +16,15 @@ export class Rule extends Lint.Rules.AbstractRule {
     ]
 
     public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
-        const options: Options = this.getOptions();
+        let args = this.getOptions().ruleArguments[0];
+        if (args) args = args.trim();
+        let options: Options;
+        
+        if (args && args.match(/^(call-order|alphabetical)$/)) {
+            options = args;
+        } else {
+            options = 'call-order';
+        }
 
         return this.applyWithFunction(sourceFile, walk, options);
     }
@@ -23,11 +32,13 @@ export class Rule extends Lint.Rules.AbstractRule {
 
 function walk(ctx: Lint.WalkContext<Options>) {
     return ts.forEachChild(ctx.sourceFile, cb);
-
+    
     function cb(node: ts.Node): void {
         if (!ts.isClassDeclaration(node)) return;
         if (!isComponentClass(node)) return;
 
+        const match = (ctx.options === 'call-order') ? [...Rule.LIFECYCLE_METHODS] : [...Rule.LIFECYCLE_METHODS].sort();
+        console.log(ctx.options, match);
         const nodes = new Map<string, ts.Node>();
         const names: string[] = [];
         
@@ -45,14 +56,20 @@ function walk(ctx: Lint.WalkContext<Options>) {
             const next = names[i + 1];
 
             let orders = {
-                prev: prev ? Rule.LIFECYCLE_METHODS.findIndex((n) => n === prev) : -1,
-                current: Rule.LIFECYCLE_METHODS.findIndex((n) => n === name),
-                next: next ? Rule.LIFECYCLE_METHODS.findIndex((n) => n === next) : 999
+                prev: prev ? match.findIndex((n) => n === prev) : -1,
+                current: match.findIndex((n) => n === name),
+                next: next ? match.findIndex((n) => n === next) : 999
             }
             
-            if (!(orders.prev < orders.current && orders.current < orders.next)) return ctx.addFailureAtNode(nodes.get(name)!, Rule.FAILURE_STRING);
+            if (!(orders.prev < orders.current && orders.current < orders.next)) return ctx.addFailureAtNode(nodes.get(name)!, getFailureString(ctx.options));
         })
 
         return ts.forEachChild(node, cb);
     }
+}
+
+function getFailureString(options: Options): string {
+    return (options === 'call-order')
+        ? Rule.CALL_ORDER_FAILURE_STRING
+        : Rule.ALPHABETICAL_FAILURE_STRING;
 }

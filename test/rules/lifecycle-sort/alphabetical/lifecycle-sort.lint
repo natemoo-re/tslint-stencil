@@ -1,0 +1,92 @@
+import { Component, Prop } from '@stencil/core';
+
+@Component({
+    tag: 'my-element-a'
+})
+export class ElementA {
+    someFunction() { }
+}
+
+@Component({
+    tag: 'my-element-b'
+})
+export class ElementB {
+    componentWillLoad() { }
+}
+
+@Component({
+    tag: 'my-element-c'
+})
+export class ElementC {
+    componentDidLoad() {}
+    componentDidUnload() {}
+    componentDidUpdate() {}
+    componentWillLoad() {}
+    componentWillUpdate() {}
+}
+
+@Component({
+    tag: 'my-element-d'
+})
+export class ElementD {
+    @Prop() propA: string;
+    @Prop() propB: string;
+    @Prop() propC: string;
+
+    componentWillUpdate() { }
+    ~~~~~~~~~~~~~~~~~~~ [failure]
+    componentWillLoad() { }
+    ~~~~~~~~~~~~~~~~~ [failure]
+    componentDidUpdate() { }
+    ~~~~~~~~~~~~~~~~~~ [failure]
+    componentDidUnload() { }
+    ~~~~~~~~~~~~~~~~~~ [failure]
+    componentDidLoad() { }
+    ~~~~~~~~~~~~~~~~ [failure]
+
+    hostData() { }
+    render() { }
+}
+
+// Fail 2/2: lifecycle hooks out of order
+@Component({
+    tag: 'my-element-e'
+})
+export class ElementE {
+  componentDidUnload() { }
+  ~~~~~~~~~~~~~~~~~~ [failure]
+  componentDidLoad() { }
+  ~~~~~~~~~~~~~~~~ [failure]
+}
+
+// Fail 2/5: final lifecycle hooks flipped
+@Component({
+    tag: 'my-element-F'
+})
+export class ElementF {
+    @Prop() propA: string;
+    @Prop() propB: string;
+    @Prop() propC: string;
+
+    componentDidLoad() { }
+    componentDidUnload() { }
+    componentDidUpdate() { }
+    componentWillUpdate() { }
+    ~~~~~~~~~~~~~~~~~~~ [failure]
+    componentWillLoad() { }
+    ~~~~~~~~~~~~~~~~~ [failure]
+    
+
+    render() { }
+}
+
+@Component({
+    tag: 'my-element-z'
+})
+export class ElementZ {
+  componentDidUnload() { }
+  componentWillLoad() { }
+  componentWillUpdate() { }
+}
+
+[failure]: Component lifecycle methods should be sorted alphabetically

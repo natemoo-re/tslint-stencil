@@ -1,6 +1,6 @@
 {
     "rulesDirectory": ["../../../../rules"],
     "rules": {
-        "lifecycle-mirrors-call-order": true
+        "lifecycle-sort": [true, "alphabetical"]
     }
 }
