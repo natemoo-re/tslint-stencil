@@ -1,10 +1,48 @@
 import * as ts from "typescript";
 import * as Lint from "tslint";
+import { codeExamples } from './code-examples/lifecycleSort.example';
 import { isComponentClass } from './shared/utils';
 
 type Options = 'call-order' | 'alphabetical';
 
 export class Rule extends Lint.Rules.AbstractRule {
+    public static metadata: Lint.IRuleMetadata = {
+        ruleName: 'lifecycle-sort',
+        type: 'style',
+        description: 'Ensures that Component lifecycle methods are sorted in a consistent order',
+        hasFix: false,
+        optionsDescription: Lint.Utils.dedent`
+            This rule optionally accepts a single argument, which is a string. It should be one of the following values:
+            - \`call-order\`
+            - \`alphabetical\`
+
+            If no argument is provided, this rule will enforce the default functionality (which matches that of \`call-order\`.)
+        `,
+        options: {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "alphabetical",
+                    "call-order",
+                ]
+            },
+            "minLength": 0,
+            "maxLength": 2
+        },
+        optionExamples: [
+            `{ "lifecycle-sort": true }`,
+            `{ "lifecycle-sort": [true, "call-order"] }`,
+            `{ "lifecycle-sort": [true, "alphabetical"] }`
+        ],
+        rationale: Lint.Utils.dedent`
+            A consistent ordering for Component lifecycle methods can make Components easier to read, navigate, and edit.
+            
+            Ordering lifecycle methods by their natural call order (\`call-order\`) makes the functionality of each self-documenting.
+        `,
+        typescriptOnly: true,
+        codeExamples
+    }
     public static CALL_ORDER_FAILURE_STRING = 'Component lifecycle methods should be sorted according to their call order';
     public static ALPHABETICAL_FAILURE_STRING = 'Component lifecycle methods should be sorted alphabetically';
     public static LIFECYCLE_METHODS = [
