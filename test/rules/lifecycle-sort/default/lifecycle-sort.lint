@@ -1,26 +1,23 @@
 import { Component, Prop } from '@stencil/core';
 
-// Pass: No lifecycle hooks
 @Component({
-    tag: 'my-element-a'
+    tag: 'my-component'
 })
-export class ElementA {
+export class Component {
     someFunction() { }
 }
 
-// Pass: One lifecycle hook
 @Component({
-    tag: 'my-element-b'
+    tag: 'my-component'
 })
-export class ElementB {
+export class Component {
     componentWillLoad() { }
 }
 
-// Pass: All lifecycle hooks in order
 @Component({
-    tag: 'my-element-c'
+    tag: 'my-component'
 })
-export class ElementC {
+export class Component {
   componentWillLoad() { }
   componentDidLoad() { }
   componentWillUpdate() { }
@@ -28,11 +25,10 @@ export class ElementC {
   componentDidUnload() { }
 }
 
-// Fail 4/5: lifecycle hooks in reverse order
 @Component({
-    tag: 'my-element-d'
+    tag: 'my-component'
 })
-export class ElementD {
+export class Component {
     @Prop() propA: string;
     @Prop() propB: string;
     @Prop() propC: string;
@@ -52,22 +48,20 @@ export class ElementD {
     render() { }
 }
 
-// Fail 2/2: lifecycle hooks out of order
 @Component({
-    tag: 'my-element-e'
+    tag: 'my-component'
 })
-export class ElementE {
+export class Component {
   componentDidUnload() { }
   ~~~~~~~~~~~~~~~~~~ [failure]
   componentDidLoad() { }
   ~~~~~~~~~~~~~~~~ [failure]
 }
 
-// Fail 2/5: final lifecycle hooks flipped
 @Component({
-    tag: 'my-element-F'
+    tag: 'my-component'
 })
-export class ElementF {
+export class Component {
     @Prop() propA: string;
     @Prop() propB: string;
     @Prop() propC: string;
@@ -83,11 +77,10 @@ export class ElementF {
     render() { }
 }
 
-// Pass: 3 lifecycle hooks in order
 @Component({
-    tag: 'my-element-z'
+    tag: 'my-component'
 })
-export class ElementZ {
+export class Component {
   componentWillLoad() { }
   componentWillUpdate() { }
   componentDidUnload() { }
