@@ -42,7 +42,7 @@ Ensures that Component lifecycle methods are sorted in a consistent order
 
 
 ### [`require-prefix`](docs/require-prefix.md)
-
+Ensures that a Component's `tag` begins with the given prefix(es).
 
 ### [`watch-follows-prop`](docs/watch-follows-prop.md)
 

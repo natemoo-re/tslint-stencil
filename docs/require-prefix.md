@@ -1,15 +1,28 @@
 
 # `require-prefix`
 
+Ensures that a Component's `tag` begins with the given prefix(es).
+
 ## Config
-Not configurable.
+
+An array of `"string"` which a Component `tag` must use as a prefix.
+        
 
 ### Config examples
 ```ts
-{ "require-prefix": true }
+{ "ban-prefix": [true, "ion"] }
+```
+```ts
+{ "ban-prefix": [true, "ion", "ionic"] }
 ```
 
 ## Schema
 ```ts
-null
+{
+  "type": "array",
+  "items": {
+    "type": "string"
+  },
+  "minLength": 1
+}
 ```
