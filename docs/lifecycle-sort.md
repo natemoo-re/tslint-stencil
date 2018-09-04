@@ -21,25 +21,10 @@ If no argument is provided, this rule will enforce the default functionality (wh
 
 ### Config examples
 ```ts
-{
-  "lifecycle-sort": true
-}
+{ "lifecycle-sort": [true, "call-order"] }
 ```
 ```ts
-{
-  "lifecycle-sort": [
-    true,
-    "call-order"
-  ]
-}
-```
-```ts
-{
-  "lifecycle-sort": [
-    true,
-    "alphabetical"
-  ]
-}
+{ "lifecycle-sort": [true, "alphabetical"] }
 ```
 
 ## Schema

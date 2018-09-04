@@ -18,27 +18,22 @@ A member is considered “multiline” if its declaration is on a line after the
 ### Config examples
 ```ts
 {
-  "decorated-member-style": true
-}
-```
-```ts
-{
   "decorated-member-style": [
-    true,
-    {
-      "methods": "multiline"
-    }
+    true, 
+      {
+        "methods": "multiline"
+      }
   ]
 }
 ```
 ```ts
 {
   "decorated-member-style": [
-    true,
-    {
-      "properties": "singleline",
-      "methods": "multiline"
-    }
+    true, 
+      {
+        "properties": "singleline",
+        "methods": "multiline"
+      }
   ]
 }
 ```

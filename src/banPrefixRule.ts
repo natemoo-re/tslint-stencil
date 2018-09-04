@@ -21,16 +21,8 @@ export class Rule extends Lint.Rules.AbstractRule {
             "minLength": 1
         },
         optionExamples: [
-            Lint.Utils.dedent`
-                {
-                    "ban-prefix": [true, "stencil"]
-                }
-            `,
-            Lint.Utils.dedent`
-                {
-                    "ban-prefix": [true, "stencil", "st", "stnl"]
-                }
-            `
+            `{ "ban-prefix": [true, "stencil"] }`,
+            `{ "ban-prefix": [true, "stencil", "st", "stnl"] }`
         ],
         type: 'style',
         typescriptOnly: true

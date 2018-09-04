@@ -6,9 +6,7 @@ Not configurable.
 
 ### Config examples
 ```ts
-{
-  "render-as-final-method": true
-}
+{ "render-as-final-method": true }
 ```
 
 ## Schema

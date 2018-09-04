@@ -10,27 +10,10 @@ An array of `"string"`s which no Component `tag` will be allowed to use as a pre
 
 ### Config examples
 ```ts
-{
-  "ban-prefix": true
-}
+{ "ban-prefix": [true, "stencil"] }
 ```
 ```ts
-{
-  "ban-prefix": [
-    true,
-    "stencil"
-  ]
-}
-```
-```ts
-{
-  "ban-prefix": [
-    true,
-    "stencil",
-    "st",
-    "stnl"
-  ]
-}
+{ "ban-prefix": [true, "stencil", "st", "stnl"] }
 ```
 
 ## Schema

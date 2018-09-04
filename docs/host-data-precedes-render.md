@@ -6,9 +6,7 @@ Not configurable.
 
 ### Config examples
 ```ts
-{
-  "host-data-precedes-render": true
-}
+{ "host-data-precedes-render": true }
 ```
 
 ## Schema

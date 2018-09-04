@@ -46,23 +46,23 @@ export class Rule extends Lint.Rules.AbstractRule {
         optionExamples: [
             Lint.Utils.dedent`
                 {
-                    "decorated-member-style": [
-                        true, 
-                        {
-                            "methods": "multiline"
-                        }
-                    ]
+                  "decorated-member-style": [
+                    true, 
+                      {
+                        "methods": "multiline"
+                      }
+                  ]
                 }
             `,
             Lint.Utils.dedent`
-                { 
-                    "decorated-member-style": [
-                        true, 
-                        {
-                            "properties": "singleline",
-                            "methods": "multiline"
-                        }
-                    ]
+                {
+                  "decorated-member-style": [
+                    true, 
+                      {
+                        "properties": "singleline",
+                        "methods": "multiline"
+                      }
+                  ]
                 }
             `
         ],
