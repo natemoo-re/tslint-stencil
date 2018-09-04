@@ -1,0 +1,11 @@
+{
+    "rulesDirectory": ["../../../../rules"],
+    "rules": {
+        "decorated-member-style": [
+            true,
+            {
+                "methods": "singleline"
+            }
+        ]
+    }
+}

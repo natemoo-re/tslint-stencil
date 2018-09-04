@@ -8,11 +8,10 @@ export class ElementA {
     ownProp = false;
 
     @Prop() mySingleProp: string;
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
 
     @Prop()
-    ~~~~~~~
     myMultiProp: string;
-~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
 }
 
-[failure]: Variable decorators should be inlined
+[failure]: Component property decorators should be multiline
