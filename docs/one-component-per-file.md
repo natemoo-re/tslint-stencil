@@ -6,7 +6,9 @@ Not configurable.
 
 ### Config examples
 ```ts
-{ "one-component-per-file": true }
+{
+  "one-component-per-file": true
+}
 ```
 
 ## Schema

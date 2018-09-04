@@ -6,7 +6,9 @@ Not configurable.
 
 ### Config examples
 ```ts
-{ "require-prefix": true }
+{
+  "require-prefix": true
+}
 ```
 
 ## Schema

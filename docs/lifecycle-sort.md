@@ -21,13 +21,25 @@ If no argument is provided, this rule will enforce the default functionality (wh
 
 ### Config examples
 ```ts
-{ "lifecycle-sort": true }
+{
+  "lifecycle-sort": true
+}
 ```
 ```ts
-{ "lifecycle-sort": [true, "call-order"] }
+{
+  "lifecycle-sort": [
+    true,
+    "call-order"
+  ]
+}
 ```
 ```ts
-{ "lifecycle-sort": [true, "alphabetical"] }
+{
+  "lifecycle-sort": [
+    true,
+    "alphabetical"
+  ]
+}
 ```
 
 ## Schema
@@ -47,24 +59,34 @@ If no argument is provided, this rule will enforce the default functionality (wh
 ```
 
 ## Code Examples
-**Order lifecycle methods by their natural call order (`call-order` or `default`)**
+- Order lifecycle methods by their natural call order (`call-order` or `default`)
+    
+    **⚙️ Config**
+    ```ts
+    "rules": { "lifecycle-sort": [true, "call-order"] }
+    ```
+    
+    **✅ Pass**
+    ```ts
+    componentWillLoad() { }
+    componentDidLoad() { }
+    componentWillUpdate() { }
+    componentDidUpdate() { }
+    componentDidUnload() { }
+    ```
 
-**✅ Pass**
-```ts
-componentWillLoad() { }
-componentDidLoad() { }
-componentWillUpdate() { }
-componentDidUpdate() { }
-componentDidUnload() { }
-```
-
-**Order lifecycle methods alphabetically (`alphabetical`)**
-
-**✅ Pass**
-```ts
-componentDidLoad() { }
-componentDidUnload() { }
-componentDidUpdate() { }
-componentWillLoad() { }
-componentWillUpdate() { }
-```
+- Order lifecycle methods alphabetically (`alphabetical`)
+    
+    **⚙️ Config**
+    ```ts
+    "rules": { "lifecycle-sort": [true, "alphabetical"] }
+    ```
+    
+    **✅ Pass**
+    ```ts
+    componentDidLoad() { }
+    componentDidUnload() { }
+    componentDidUpdate() { }
+    componentWillLoad() { }
+    componentWillUpdate() { }
+    ```

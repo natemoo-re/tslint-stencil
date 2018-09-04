@@ -6,7 +6,9 @@ Not configurable.
 
 ### Config examples
 ```ts
-{ "watch-follows-prop": true }
+{
+  "watch-follows-prop": true
+}
 ```
 
 ## Schema

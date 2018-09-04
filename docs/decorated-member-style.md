@@ -17,32 +17,30 @@ A member is considered “multiline” if its declaration is on a line after the
 
 ### Config examples
 ```ts
-{ "decorated-member-style": true }
-```
-```ts
-
 {
-    "decorated-member-style": [
-        true, 
-        {
-            "methods": "multiline"
-        }
-    ]
+  "decorated-member-style": true
 }
-            
 ```
 ```ts
-
-{ 
-    "decorated-member-style": [
-        true, 
-        {
-            "properties": "singleline",
-            "methods": "multiline"
-        }
-    ]
+{
+  "decorated-member-style": [
+    true,
+    {
+      "methods": "multiline"
+    }
+  ]
 }
-            
+```
+```ts
+{
+  "decorated-member-style": [
+    true,
+    {
+      "properties": "singleline",
+      "methods": "multiline"
+    }
+  ]
+}
 ```
 
 ## Schema
@@ -71,51 +69,71 @@ A member is considered “multiline” if its declaration is on a line after the
 ```
 
 ## Code Examples
-**Require all decorated component methods to be multi-line.**
-
-**✅ Pass**
-```ts
-@Prop() propName: string;
-```
-
-**🚫 Fail**
-```ts
-@Prop()
-propName: string;
-```
-**Require all decorated component methods to be multi-line.**
-
-**✅ Pass**
-```ts
-@Prop()
-propName: string;
-```
-
-**🚫 Fail**
-```ts
-@Prop() propName: string;
-```
-**Require all decorated component methods to be multi-line.**
-
-**✅ Pass**
-```ts
-@Listen('click')
-handleClick() {}
-```
-
-**🚫 Fail**
-```ts
-@Listen('click') handleClick() {}
-```
-**Require all decorated component methods to be inlined.**
-
-**✅ Pass**
-```ts
-@Listen('click') handleClick() {}
-```
-
-**🚫 Fail**
-```ts
-@Listen('click')
-handleClick() {}
-```
+- Require all decorated component methods to be multi-line.
+    
+    **⚙️ Config**
+    ```ts
+    "rules": { "decorated-member-style": [true, { "properties": "singleline" }] }
+    ```
+    
+    **✅ Pass**
+    ```ts
+    @Prop() propName: string;
+    ```
+    
+    **🚫 Fail**
+    ```ts
+    @Prop()
+    propName: string;
+    ```
+- Require all decorated component methods to be multi-line.
+    
+    **⚙️ Config**
+    ```ts
+    "rules": { "decorated-member-style": [true, { "properties": "multiline" }] }
+    ```
+    
+    **✅ Pass**
+    ```ts
+    @Prop()
+    propName: string;
+    ```
+    
+    **🚫 Fail**
+    ```ts
+    @Prop() propName: string;
+    ```
+- Require all decorated component methods to be multi-line.
+    
+    **⚙️ Config**
+    ```ts
+    "rules": { "decorated-member-style": [true, { "methods": "multiline" }] }
+    ```
+    
+    **✅ Pass**
+    ```ts
+    @Listen('click')
+    handleClick() {}
+    ```
+    
+    **🚫 Fail**
+    ```ts
+    @Listen('click') handleClick() {}
+    ```
+- Require all decorated component methods to be inlined.
+    
+    **⚙️ Config**
+    ```ts
+    "rules": { "decorated-member-style": [true, { "methods": "multiline" }] }
+    ```
+    
+    **✅ Pass**
+    ```ts
+    @Listen('click') handleClick() {}
+    ```
+    
+    **🚫 Fail**
+    ```ts
+    @Listen('click')
+    handleClick() {}
+    ```
