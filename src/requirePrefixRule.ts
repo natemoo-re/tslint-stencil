@@ -3,18 +3,35 @@ import * as Lint from "tslint";
 import { isComponentClass, hasDecoratorNamed, getDeclarationParameters } from './shared/utils';
 
 type Options = {
-    isArray: boolean
-    valid: string|string[]
+    valid: string[]
 };
 
 export class Rule extends Lint.Rules.AbstractRule {
-    public static FAILURE_STRING = 'Invalid tag prefix "%s"\nTag must begin with "%s"';
+    public static metadata: Lint.IRuleMetadata = {
+        ruleName: 'require-prefix',
+        description: `Ensures that a Component's \`tag\` begins with the given prefix(es).`,
+        optionsDescription: Lint.Utils.dedent`
+            An array of \`"string"\` which a Component \`tag\` must use as a prefix.
+        `,
+        options: {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "minLength": 1
+        },
+        optionExamples: [
+            `{ "ban-prefix": [true, "ion"] }`,
+            `{ "ban-prefix": [true, "ion", "ionic"] }`
+        ],
+        type: 'style',
+        typescriptOnly: true
+    }
+    public static FAILURE_STRING = 'Invalid tag prefix "%s". Tag must begin with "%s"';
 
     public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
-        const valid = this.getOptions().ruleArguments[0];
         const options: Options = {
-            isArray: Array.isArray(valid),
-            valid
+            valid: this.getOptions().ruleArguments.map(x => x.trim().replace(/-$/, ''))
         };
 
         return this.applyWithFunction(sourceFile, walk, options);
@@ -33,14 +50,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
         
         if (!tag) return;
 
-        let valid = true;
-        if (ctx.options.isArray) {
-            (ctx.options.valid as string[]).forEach(prefix => {
-                if (valid) valid = tag.startsWith(`${prefix}-`);
-            })
-        } else {
-            valid = tag.startsWith(`${(ctx.options.valid as string)}-`);
-        }
+        let valid = ctx.options.valid.some(prefix => tag.startsWith(`${prefix}-`));
 
         if (valid) return;
         const obj = ts.isCallExpression(dec.expression) && (dec.expression as ts.CallExpression).arguments[0];
@@ -48,9 +58,9 @@ function walk(ctx: Lint.WalkContext<Options>) {
             const property = obj.properties.filter((property) => {
                 let name = property.name!.getText(ctx.sourceFile);
                 return name.indexOf('tag') > -1;
-            }).pop();
+            })[0];
             if (property) {
-                ctx.addFailureAtNode(property.getChildAt(2, ctx.sourceFile), Rule.FAILURE_STRING.replace('%s', tag.split('-')[0]));
+                ctx.addFailureAtNode(property.getChildAt(2, ctx.sourceFile), Rule.FAILURE_STRING.replace('%s', tag.split('-')[0]).replace('%s', Array.isArray(ctx.options.valid) ? ctx.options.valid.join('|') : ctx.options.valid));
             }
         }
         

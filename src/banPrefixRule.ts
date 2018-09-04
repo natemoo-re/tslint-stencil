@@ -31,7 +31,7 @@ export class Rule extends Lint.Rules.AbstractRule {
 
     public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
         const options: Options = {
-            banned: this.getOptions().ruleArguments.map(x => x.trim().replace(/-$/, ''))
+            banned: this.getOptions().ruleArguments.filter(x => x).map(x => x.trim().replace(/-$/, ''))
         };
 
         return this.applyWithFunction(sourceFile, walk, options);
@@ -50,12 +50,10 @@ function walk(ctx: Lint.WalkContext<Options>) {
         
         if (!tag) return;
 
-        let valid = true;
-        ctx.options.banned.forEach(prefix => {
-            if (valid) valid = !tag.startsWith(`${prefix}-`);
-        })
-
+        let valid = !ctx.options.banned.some(prefix => tag.startsWith(`${prefix}-`));
+        console.log(`${tag} is ${(valid) ? 'valid' : 'invalid'}`);
         if (valid) return;
+
         const obj = ts.isCallExpression(dec.expression) && (dec.expression as ts.CallExpression).arguments[0];
         if (obj && ts.isObjectLiteralExpression(obj)) {
             const property = obj.properties.filter((property) => {

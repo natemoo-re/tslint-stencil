@@ -1,44 +1,21 @@
 import { Component } from '@stencil/core';
 
 @Component({
+    tag: 'ion-component'
+})
+export class Component { }
+
+@Component({
+    tag: 'ionic-component'
+         ~~~~~~~~~~~~~~~~~ [failure % ('ionic')]
+})
+export class Component { }
+
+@Component({
     tag: 'my-component'
+         ~~~~~~~~~~~~~~ [failure % ('my')]
 })
-export class ElementA { }
+export class Component { }
 
-@Component({
-    tag: 'stencil-component'
-         ~~~~~~~~~~~~~~~~~~~ [failure % ('stencil')]
-})
-export class StencilComponent { }
 
-@Component({
-    tag: 'st-component'
-         ~~~~~~~~~~~~~~ [failure % ('st')]
-})
-export class StComponent { }
-
-@Component({
-    tag: 'stnl-component'
-         ~~~~~~~~~~~~~~~~ [failure % ('stnl')]
-})
-export class StnlComponent { }
-
-@Component({
-    'tag': 'stencil-component'
-           ~~~~~~~~~~~~~~~~~~~ [failure % ('stencil')]
-})
-export class StencilComponent { }
-
-@Component({
-    "tag": 'stencil-component'
-           ~~~~~~~~~~~~~~~~~~~ [failure % ('stencil')]
-})
-export class StencilComponent { }
-
-@Component({
-    [`tag`]: 'stencil-component'
-             ~~~~~~~~~~~~~~~~~~~ [failure % ('stencil')]
-})
-export class StencilComponent { }
-
-[failure]: Invalid tag prefix "%s"
+[failure]: Invalid tag prefix "%s". Tag must begin with "ion"
