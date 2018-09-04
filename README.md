@@ -32,8 +32,8 @@ Requires decorated class members to follow a consistent style (singleline or mul
 ### [`host-data-precedes-render`](docs/host-data-precedes-render.md)
 
 
-### [`lifecycle-sort`](docs/lifecycle-sort.md)
-Ensures that Component lifecycle methods are sorted in a consistent order
+### [`lifecycle-order`](docs/lifecycle-order.md)
+Ensures that Component lifecycle methods are ordered consistently
 
 ### [`one-component-per-file`](docs/one-component-per-file.md)
 

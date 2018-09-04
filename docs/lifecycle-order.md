@@ -1,7 +1,7 @@
 
-# `lifecycle-sort`
+# `lifecycle-order`
 
-Ensures that Component lifecycle methods are sorted in a consistent order
+Ensures that Component lifecycle methods are ordered consistently
 
 ## Rationale
 

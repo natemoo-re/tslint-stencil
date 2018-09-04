@@ -14,10 +14,10 @@
   },
   "scripts": {
     "compile": "tsc",
-    "build": "rm -rf rules && npm run compile",
+    "build": "rm -rf rules && npm run compile && npm run docs",
     "test": "tslint --test test/rules/**/*",
     "verify": "npm run build && npm run test",
-    "publish": "node scripts/publish",
+    "prepare": "node scripts/publish",
     "commit": "node scripts/commit",
     "predocs": "rm -rf docs",
     "docs": "node scripts/docs"
