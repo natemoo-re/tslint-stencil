@@ -1,6 +1,7 @@
 {
     "extends": "./tslint-stencil.json",
     "rules": {
+        "ban-prefix": [true, "stencil", "st", "stnl"],
         "decorated-member-style": [
             true, 
             {
