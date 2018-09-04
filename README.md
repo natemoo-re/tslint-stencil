@@ -23,14 +23,14 @@ Alternatively, you can extend the bare package and enable each [rule](#rules) on
 
 ## Rules
 
+### [`decorated-member-style`](docs/decorated-member-style.md)
+Requires decorated class members to follow a consistent style (singleline or multiline)
+
 ### [`host-data-precedes-render`](docs/host-data-precedes-render.md)
 
 
 ### [`lifecycle-sort`](docs/lifecycle-sort.md)
 Ensures that Component lifecycle methods are sorted in a consistent order
-
-### [`method-decorator-style`](docs/method-decorator-style.md)
-Ensures that component methods *(with a lowercase "m")* follow the specified style.
 
 ### [`no-prefix`](docs/no-prefix.md)
 
@@ -42,9 +42,6 @@ Ensures that component methods *(with a lowercase "m")* follow the specified sty
 
 
 ### [`require-prefix`](docs/require-prefix.md)
-
-
-### [`variable-decorator-style`](docs/variable-decorator-style.md)
 
 
 ### [`watch-follows-prop`](docs/watch-follows-prop.md)

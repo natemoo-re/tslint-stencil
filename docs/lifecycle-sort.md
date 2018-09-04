@@ -3,8 +3,6 @@
 
 Ensures that Component lifecycle methods are sorted in a consistent order
 
-**`🛠 Has Fixer`**
-
 ## Rationale
 
 A consistent ordering for Component lifecycle methods can make Components easier to read, navigate, and edit.
