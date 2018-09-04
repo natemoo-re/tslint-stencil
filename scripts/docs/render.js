@@ -118,9 +118,8 @@ exports.renderREADME = function (rules) {
     const docs = rules.map((metadata) => {
         return [
             "",
-            `### \`${metadata.ruleName}\``,
-            metadata.description,
-            `[Read More](docs/${metadata.ruleName}.md)`
+            `### [\`${metadata.ruleName}\`](docs/${metadata.ruleName}.md)`,
+            metadata.description
         ].join('\n');
     })
     
