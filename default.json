@@ -10,6 +10,9 @@
             }
         ],
         "lifecycle-order": [true, "call-order"],
-        "one-component-per-file": true
+        "one-component-per-file": true,
+        "watch-follows-prop": true,
+        "render-as-final-method": true,
+        "host-data-precedes-render": true
     }
 }
