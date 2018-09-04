@@ -69,7 +69,7 @@ A member is considered “multiline” if its declaration is on a line after the
 ```
 
 ## Code Examples
-- Require all decorated component methods to be multi-line.
+- Require all decorated component properties to be singleline.
     
     **⚙️ Config**
     ```ts
@@ -86,7 +86,7 @@ A member is considered “multiline” if its declaration is on a line after the
     @Prop()
     propName: string;
     ```
-- Require all decorated component methods to be multi-line.
+- Require all decorated component properties to be multiline.
     
     **⚙️ Config**
     ```ts
@@ -103,28 +103,11 @@ A member is considered “multiline” if its declaration is on a line after the
     ```ts
     @Prop() propName: string;
     ```
-- Require all decorated component methods to be multi-line.
-    
-    **⚙️ Config**
-    ```ts
-    "rules": { "decorated-member-style": [true, { "methods": "multiline" }] }
-    ```
-    
-    **✅ Pass**
-    ```ts
-    @Listen('click')
-    handleClick() {}
-    ```
-    
-    **🚫 Fail**
-    ```ts
-    @Listen('click') handleClick() {}
-    ```
 - Require all decorated component methods to be inlined.
     
     **⚙️ Config**
     ```ts
-    "rules": { "decorated-member-style": [true, { "methods": "multiline" }] }
+    "rules": { "decorated-member-style": [true, { "methods": "singleline" }] }
     ```
     
     **✅ Pass**
@@ -136,4 +119,25 @@ A member is considered “multiline” if its declaration is on a line after the
     ```ts
     @Listen('click')
     handleClick() {}
+    ```
+- Require all decorated component methods to be multiline.
+    
+    **⚙️ Config**
+    ```ts
+    "rules": { "decorated-member-style": [true, { "methods": "multiline" }] }
+    ```
+    
+    **✅ Pass**
+    ```ts
+    @Listen('click')
+    handleClick() {}
+    
+    @Listen('click')
+    @Listen('tap')
+    handleClickOrTap() {}
+    ```
+    
+    **🚫 Fail**
+    ```ts
+    @Listen('click') handleClick() {}
     ```
