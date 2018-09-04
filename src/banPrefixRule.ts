@@ -3,7 +3,7 @@ import * as Lint from "tslint";
 import { isComponentClass, hasDecoratorNamed, getDeclarationParameters } from './shared/utils';
 
 type Options = {
-    blocklist: string[]
+    banned: string[]
 };
 
 export class Rule extends Lint.Rules.AbstractRule {
@@ -11,7 +11,7 @@ export class Rule extends Lint.Rules.AbstractRule {
 
     public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
         const options: Options = {
-            blocklist: this.getOptions().ruleArguments[0]
+            banned: this.getOptions().ruleArguments.map(x => x.trim().replace(/-$/, ''))
         };
 
         return this.applyWithFunction(sourceFile, walk, options);
@@ -31,7 +31,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
         if (!tag) return;
 
         let valid = true;
-        ctx.options.blocklist.forEach(prefix => {
+        ctx.options.banned.forEach(prefix => {
             if (valid) valid = !tag.startsWith(`${prefix}-`);
         })
 
