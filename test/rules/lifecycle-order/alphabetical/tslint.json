@@ -1,6 +1,6 @@
 {
     "rulesDirectory": ["../../../../rules"],
     "rules": {
-        "lifecycle-sort": [true, "alphabetical"]
+        "lifecycle-order": [true, "alphabetical"]
     }
 }

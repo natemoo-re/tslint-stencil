@@ -7,8 +7,8 @@ type Options = 'call-order' | 'alphabetical';
 
 export class Rule extends Lint.Rules.AbstractRule {
     public static metadata: Lint.IRuleMetadata = {
-        ruleName: 'lifecycle-sort',
-        description: 'Ensures that Component lifecycle methods are sorted in a consistent order',
+        ruleName: 'lifecycle-order',
+        description: 'Ensures that Component lifecycle methods are ordered consistently',
         optionsDescription: Lint.Utils.dedent`
             This rule optionally accepts a single argument, which is a string. It should be one of the following values:
             - \`call-order\`
@@ -41,8 +41,8 @@ export class Rule extends Lint.Rules.AbstractRule {
         typescriptOnly: true,
         codeExamples
     }
-    public static CALL_ORDER_FAILURE_STRING = 'Component lifecycle methods should be sorted according to their call order';
-    public static ALPHABETICAL_FAILURE_STRING = 'Component lifecycle methods should be sorted alphabetically';
+    public static CALL_ORDER_FAILURE_STRING = 'Component lifecycle methods should be ordered according to their call order';
+    public static ALPHABETICAL_FAILURE_STRING = 'Component lifecycle methods should be ordered alphabetically';
     public static LIFECYCLE_METHODS = [
         'componentWillLoad',
         'componentDidLoad',

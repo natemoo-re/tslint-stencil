@@ -86,4 +86,4 @@ export class Component {
   componentDidUnload() { }
 }
 
-[failure]: Component lifecycle methods should be sorted according to their call order
+[failure]: Component lifecycle methods should be ordered according to their call order

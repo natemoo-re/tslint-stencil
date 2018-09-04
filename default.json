@@ -9,7 +9,7 @@
                 "methods": "multiline"
             }
         ],
-        "lifecycle-sort": [true, "call-order"],
+        "lifecycle-order": [true, "call-order"],
         "one-component-per-file": true
     }
 }

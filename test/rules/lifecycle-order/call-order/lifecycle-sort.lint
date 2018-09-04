@@ -18,11 +18,11 @@ export class Component {
     tag: 'my-component'
 })
 export class Component {
-    componentDidLoad() {}
-    componentDidUnload() {}
-    componentDidUpdate() {}
-    componentWillLoad() {}
-    componentWillUpdate() {}
+  componentWillLoad() { }
+  componentDidLoad() { }
+  componentWillUpdate() { }
+  componentDidUpdate() { }
+  componentDidUnload() { }
 }
 
 @Component({
@@ -33,16 +33,16 @@ export class Component {
     @Prop() propB: string;
     @Prop() propC: string;
 
-    componentWillUpdate() { }
-    ~~~~~~~~~~~~~~~~~~~ [failure]
-    componentWillLoad() { }
-    ~~~~~~~~~~~~~~~~~ [failure]
-    componentDidUpdate() { }
-    ~~~~~~~~~~~~~~~~~~ [failure]
     componentDidUnload() { }
     ~~~~~~~~~~~~~~~~~~ [failure]
+    componentDidUpdate() { }
+    ~~~~~~~~~~~~~~~~~~ [failure]
+    componentWillUpdate() { }
+    ~~~~~~~~~~~~~~~~~~~ [failure]
     componentDidLoad() { }
     ~~~~~~~~~~~~~~~~ [failure]
+    componentWillLoad() { }
+    ~~~~~~~~~~~~~~~~~ [failure]
 
     hostData() { }
     render() { }
@@ -66,14 +66,13 @@ export class Component {
     @Prop() propB: string;
     @Prop() propC: string;
 
-    componentDidLoad() { }
-    componentDidUnload() { }
-    componentDidUpdate() { }
-    componentWillUpdate() { }
-    ~~~~~~~~~~~~~~~~~~~ [failure]
     componentWillLoad() { }
-    ~~~~~~~~~~~~~~~~~ [failure]
-    
+    componentDidLoad() { }
+    componentWillUpdate() { }
+    componentDidUnload() { }
+    ~~~~~~~~~~~~~~~~~~ [failure]
+    componentDidUpdate() { }
+    ~~~~~~~~~~~~~~~~~~ [failure]
 
     render() { }
 }
@@ -82,9 +81,9 @@ export class Component {
     tag: 'my-component'
 })
 export class Component {
-  componentDidUnload() { }
   componentWillLoad() { }
   componentWillUpdate() { }
+  componentDidUnload() { }
 }
 
-[failure]: Component lifecycle methods should be sorted alphabetically
+[failure]: Component lifecycle methods should be ordered according to their call order
