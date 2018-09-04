@@ -7,6 +7,34 @@ type Options = {
 };
 
 export class Rule extends Lint.Rules.AbstractRule {
+    public static metadata: Lint.IRuleMetadata = {
+        ruleName: 'ban-prefix',
+        description: `Ensures that a Component's \`tag\` does not use any of the given prefixes.`,
+        optionsDescription: Lint.Utils.dedent`
+            An array of \`"string"\`s which no Component \`tag\` will be allowed to use as a prefix.
+        `,
+        options: {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "minLength": 1
+        },
+        optionExamples: [
+            Lint.Utils.dedent`
+                {
+                    "ban-prefix": [true, "stencil"]
+                }
+            `,
+            Lint.Utils.dedent`
+                {
+                    "ban-prefix": [true, "stencil", "st", "stnl"]
+                }
+            `
+        ],
+        type: 'style',
+        typescriptOnly: true
+    }
     public static FAILURE_STRING = 'Invalid tag prefix "%s"';
 
     public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
@@ -41,7 +69,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
             const property = obj.properties.filter((property) => {
                 let name = property.name!.getText(ctx.sourceFile);
                 return name.indexOf('tag') > -1;
-            }).pop();
+            })[0];
             if (property) {
                 ctx.addFailureAtNode(property.getChildAt(2, ctx.sourceFile), Rule.FAILURE_STRING.replace('%s', tag.split('-')[0]));
             }

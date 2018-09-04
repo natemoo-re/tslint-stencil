@@ -23,6 +23,9 @@ Alternatively, you can extend the bare package and enable each [rule](#rules) on
 
 ## Rules
 
+### [`ban-prefix`](docs/ban-prefix.md)
+Ensures that a Component's `tag` does not use any of the given prefixes.
+
 ### [`decorated-member-style`](docs/decorated-member-style.md)
 Requires decorated class members to follow a consistent style (singleline or multiline)
 
@@ -31,9 +34,6 @@ Requires decorated class members to follow a consistent style (singleline or mul
 
 ### [`lifecycle-sort`](docs/lifecycle-sort.md)
 Ensures that Component lifecycle methods are sorted in a consistent order
-
-### [`no-prefix`](docs/no-prefix.md)
-
 
 ### [`one-component-per-file`](docs/one-component-per-file.md)
 
