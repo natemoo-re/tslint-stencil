@@ -8,9 +8,7 @@ type Options = 'call-order' | 'alphabetical';
 export class Rule extends Lint.Rules.AbstractRule {
     public static metadata: Lint.IRuleMetadata = {
         ruleName: 'lifecycle-sort',
-        type: 'style',
         description: 'Ensures that Component lifecycle methods are sorted in a consistent order',
-        hasFix: false,
         optionsDescription: Lint.Utils.dedent`
             This rule optionally accepts a single argument, which is a string. It should be one of the following values:
             - \`call-order\`
@@ -31,7 +29,6 @@ export class Rule extends Lint.Rules.AbstractRule {
             "maxLength": 2
         },
         optionExamples: [
-            `{ "lifecycle-sort": true }`,
             `{ "lifecycle-sort": [true, "call-order"] }`,
             `{ "lifecycle-sort": [true, "alphabetical"] }`
         ],
@@ -40,6 +37,7 @@ export class Rule extends Lint.Rules.AbstractRule {
             
             Ordering lifecycle methods by their natural call order (\`call-order\`) makes the functionality of each self-documenting.
         `,
+        type: 'style',
         typescriptOnly: true,
         codeExamples
     }
@@ -76,7 +74,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
         if (!isComponentClass(node)) return;
 
         const match = (ctx.options === 'call-order') ? [...Rule.LIFECYCLE_METHODS] : [...Rule.LIFECYCLE_METHODS].sort();
-        console.log(ctx.options, match);
+
         const nodes = new Map<string, ts.Node>();
         const names: string[] = [];
         

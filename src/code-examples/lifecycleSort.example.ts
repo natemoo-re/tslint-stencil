@@ -1,6 +1,6 @@
 import * as Lint from 'tslint';
 
-export const codeExamples = [
+export const codeExamples: Lint.ICodeExample[] = [
     {
         description: "Order lifecycle methods by their natural call order (`call-order` or `default`)",
         config: Lint.Utils.dedent`
