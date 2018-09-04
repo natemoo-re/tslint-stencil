@@ -23,41 +23,32 @@ Alternatively, you can extend the bare package and enable each [rule](#rules) on
 
 ## Rules
 
-### `host-data-precedes-render`
+### [`host-data-precedes-render`](docs/host-data-precedes-render.md)
 
-[Read More](docs/host-data-precedes-render.md)
 
-### `lifecycle-sort`
+### [`lifecycle-sort`](docs/lifecycle-sort.md)
 Ensures that Component lifecycle methods are sorted in a consistent order
-[Read More](docs/lifecycle-sort.md)
 
-### `method-decorator-style`
+### [`method-decorator-style`](docs/method-decorator-style.md)
 Ensures that component methods *(with a lowercase "m")* follow the specified style.
-[Read More](docs/method-decorator-style.md)
 
-### `no-prefix`
+### [`no-prefix`](docs/no-prefix.md)
 
-[Read More](docs/no-prefix.md)
 
-### `one-component-per-file`
+### [`one-component-per-file`](docs/one-component-per-file.md)
 
-[Read More](docs/one-component-per-file.md)
 
-### `render-as-final-method`
+### [`render-as-final-method`](docs/render-as-final-method.md)
 
-[Read More](docs/render-as-final-method.md)
 
-### `require-prefix`
+### [`require-prefix`](docs/require-prefix.md)
 
-[Read More](docs/require-prefix.md)
 
-### `variable-decorator-style`
+### [`variable-decorator-style`](docs/variable-decorator-style.md)
 
-[Read More](docs/variable-decorator-style.md)
 
-### `watch-follows-prop`
+### [`watch-follows-prop`](docs/watch-follows-prop.md)
 
-[Read More](docs/watch-follows-prop.md)
 
 ## Contributing
 Rules in the `src/` directory must be **camelCased** and end in **Rule**.
