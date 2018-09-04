@@ -48,7 +48,7 @@ function renderConfig(metadata) {
         metadata.optionsDescription ? metadata.optionsDescription : 'Not configurable.',
         '',
         '### Config examples',
-        [`{ "${metadata.ruleName}": true }`, ...(metadata.optionExamples || [])].map(x => "```ts\n" + JSON.stringify(JSON.parse(x.trim()), null, 2) + "\n```").join('\n')
+        [...(metadata.optionExamples || [`{ "${metadata.ruleName}": true }`])].map(x => "```ts\n" + x.trim() + "\n```").join('\n')
     ].join('\n')
     
     return config;
