@@ -1,13 +1,14 @@
 {
     "extends": "./tslint-stencil.json",
     "rules": {
-        "host-data-precedes-render": true,
-        "lifecycle-mirrors-call-order": true,
-        "method-decorator-style": [true, "multi-line"],
-        "no-stencil-prefix": true,
-        "one-component-per-file": true,
-        "render-as-final-method": true,
-        "variable-decorator-style": [true, "single-line"],
-        "watch-follows-prop": true
+        "decorated-member-style": [
+            true, 
+            {
+                "properties": "singleline",
+                "methods": "multiline"
+            }
+        ],
+        "lifecycle-sort": [true, "call-order"],
+        "one-component-per-file": true
     }
 }
