@@ -48,7 +48,7 @@ function renderConfig(metadata) {
         metadata.optionsDescription ? metadata.optionsDescription : 'Not configurable.',
         '',
         '### Config examples',
-        [`{ "${metadata.ruleName}": true }`, ...(metadata.optionExamples || [])].map(x => "```ts\n" + x + "\n```").join('\n')
+        [`{ "${metadata.ruleName}": true }`, ...(metadata.optionExamples || [])].map(x => "```ts\n" + JSON.stringify(JSON.parse(x.trim()), null, 2) + "\n```").join('\n')
     ].join('\n')
     
     return config;
@@ -65,12 +65,14 @@ function renderSchema(metadata) {
     return schema;
 }
 
-function renderCodeExample(title, example) {
+
+function renderCodeExample(title, example, padding = 4) {
+    const pad = " ".repeat(padding);
     if (example) {
         return [
-            "",
-            `**${title}**`,
-            "```ts\n" + example.trim() + "\n```",
+            pad,
+            `${pad}**${title}**`,
+            `${pad}\`\`\`ts\n${example.trim().split('\n').map(x => pad + x).join('\n')}\n${pad}\`\`\``,
         ].join("\n");
     } else {
         return '';
@@ -83,7 +85,8 @@ function renderCodeExamples(metadata) {
         '## Code Examples',
         codeExamples.map(example => {
             return [
-                `**${example.description}**`,
+                `- ${example.description}`,
+                renderCodeExample('⚙️ Config', example.config),
                 renderCodeExample('✅ Pass', example.pass),
                 renderCodeExample('🚫 Fail', example.fail)
             ].join('\n');
