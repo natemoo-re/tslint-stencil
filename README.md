@@ -26,6 +26,9 @@ Alternatively, you can extend the bare package and enable each [rule](#rules) on
 ### [`ban-prefix`](docs/ban-prefix.md)
 Ensures that a Component's `tag` does not use any of the given prefixes.
 
+### [`component-member-order`](docs/component-member-order.md)
+Ensures that Component members are ordered consistently
+
 ### [`components-per-file`](docs/components-per-file.md)
 Allows a maximum number of Components to be placed in a single file
 
@@ -43,6 +46,9 @@ Ensures that Component lifecycle methods are ordered consistently
 
 ### [`require-prefix`](docs/require-prefix.md)
 Ensures that a Component's `tag` begins with the given prefix(es).
+
+### [`stencil-method-order`](docs/stencil-method-order.md)
+Ensures that Stencil methods (`hostData`, `render`) are ordered consistently
 
 ### [`watch-follows-prop`](docs/watch-follows-prop.md)
 

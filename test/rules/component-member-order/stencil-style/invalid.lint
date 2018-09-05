@@ -1,0 +1,41 @@
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @State() valid = false;
+  @Prop() myProp: boolean;
+  render() {}
+}
+
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @Prop() myProp: boolean;
+  ~~~~~~~~~~~~~~~~~~~~~~~~ ([failure] % "prop", between "state" and "stencil-method")
+  @State() valid = false;
+  render() {}
+}
+
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @State() valid = false;
+  render() {}
+  ~~~~~~~~~~~~~~~~~~~~~~~~ ([failure] % "stencil-method", after \"prop\")
+  @Prop() myProp: boolean;
+}
+
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  render() {}
+  ~~~~~~~~~~~ ([failure] % "stencil-method", after "prop")
+  @State() valid = false;
+  @Prop() myProp: boolean;
+}
+
+
+[failure]: Component member %s should be placed %s

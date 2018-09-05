@@ -1,0 +1,51 @@
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @Prop() myProp: string;
+  @Event() myEvent: EventEmitter<void>;
+}
+
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @Prop() myPropB: string;
+  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-group]
+  @Event() myEvent: EventEmitter<void>;
+  @Prop() myPropA: string;
+  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-group]
+}
+
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @Event() myEvent: EventEmitter<void>;
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure-order]
+  
+  @Prop() myPropA: string;
+  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
+  @Prop() myPropC: string;
+  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
+  @Prop() myPropB: string;
+  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
+}
+
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @Prop() myPropA: string;
+  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
+  @Prop() myPropC: string;
+  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
+  @Prop() myPropB: string;
+  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
+
+  @Event() myEvent: EventEmitter<void>;
+}
+
+[failure-order]: Component member "event" should be placed after "prop"
+[failure-group]: Component members of the same type should be grouped together
+[failure-alphabetical]: Component members of the same type should be alphabetized

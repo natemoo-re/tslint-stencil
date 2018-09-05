@@ -1,7 +1,6 @@
 {
-    "extends": "./tslint-stencil.json",
+    "rulesDirectory": ["../../../../rules"],
     "rules": {
-        "ban-prefix": [true, "stencil", "st", "stnl"],
         "component-member-order": [
             true,
             {
@@ -9,8 +8,10 @@
                     "own-prop",
                     "element",
                     "state",
+                    "watched-state",
                     "internal-prop",
                     "prop",
+                    "watched-prop",
                     "event",
                     "lifecycle",
                     "listen",
@@ -20,24 +21,6 @@
                 ],
                 "watch-follows-prop": true,
                 "alphabetical": true
-            }
-        ],
-        "components-per-file": [true, 1],
-        "decorated-member-style": [
-            true,
-            {
-                "properties": "singleline",
-                "methods": "multiline"
-            }
-        ],
-        "lifecycle-order": [true, "call-order"],
-        "stencil-method-order": [
-            true,
-            {
-                "order": [
-                    "hostData",
-                    "render"
-                ]
             }
         ]
     }

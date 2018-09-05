@@ -1,0 +1,11 @@
+{
+    "rulesDirectory": ["../../../../rules"],
+    "rules": {
+        "component-member-order": [
+            true,
+            {
+                "alphabetical": true
+            }
+        ]
+    }
+}
