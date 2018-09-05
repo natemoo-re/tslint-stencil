@@ -35,10 +35,17 @@ async function postVerify() {
 
     loading.setSpinnerTitle('Pushing to Git');
     loading.start();
-    await run(`git push`);
-    await run(`git push --tags`);
-    loading.stop(true);
-    console.log(`${green('✔')} ${bold('Pushed to Git')}\n`);
+    try {
+        await run(`git push`);
+        await run(`git push --tags`);
+        loading.stop(true);
+        console.log(`${green('✔')} ${bold('Pushed to Git')}\n`);
+    } catch (e) {
+        loading.stop(true);
+        console.log(`${red('✖')} ${bold('Unable to push to Git')}\n`);
+        console.log(e);
+        process.exit(1);
+    }
 }
 
 async function main() {
