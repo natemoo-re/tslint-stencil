@@ -33,13 +33,6 @@ async function postVerify() {
     await run(`git push --tags`);
     loading.stop(true);
     console.log(`${green('✔')} ${bold('Pushed to Git')}\n`);
-
-    loading.setSpinnerTitle('Publishing to NPM');
-    loading.start();
-    // TODO this never finished even though the package gets published
-    await run(`npm publish`);
-    loading.stop(true);
-    console.log(`${green('✔')} ${bold('Published to NPM')}\n`);
 }
 
 async function main() {
