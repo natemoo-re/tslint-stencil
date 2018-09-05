@@ -27,6 +27,11 @@ async function handleVerify({ success, output }) {
 }
 
 async function postVerify() {
+    loading.setSpinnerTitle('Updating Docs');
+    loading.start();
+    await run(`npm run docs`);
+    loading.stop(true);
+
     loading.setSpinnerTitle('Pushing to Git');
     loading.start();
     await run(`git push`);
