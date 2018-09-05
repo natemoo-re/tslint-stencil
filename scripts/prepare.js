@@ -31,6 +31,7 @@ async function postVerify() {
     loading.start();
     await run(`npm run docs`);
     loading.stop(true);
+    console.log(`${green('✔')} ${bold('Updated Docs')}\n`);
 
     loading.setSpinnerTitle('Pushing to Git');
     loading.start();
