@@ -51,7 +51,6 @@ function walk(ctx: Lint.WalkContext<Options>) {
         if (!tag) return;
 
         let valid = !ctx.options.banned.some(prefix => tag.startsWith(`${prefix}-`));
-        console.log(`${tag} is ${(valid) ? 'valid' : 'invalid'}`);
         if (valid) return;
 
         const obj = ts.isCallExpression(dec.expression) && (dec.expression as ts.CallExpression).arguments[0];
