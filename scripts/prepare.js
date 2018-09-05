@@ -62,7 +62,7 @@ async function main() {
     } catch (e) {
         console.log(`${red('✖')} Unable to execute ${green('npm version')}!`, red(`${e.stderr.split('\n')[0].replace('npm ERR! ', '')}`));
         console.log();
-        process.exit(0);
+        process.exit(1);
     }
     console.log();
 
