@@ -2,6 +2,7 @@ import * as ts from "typescript";
 import * as Lint from "tslint";
 import { codeExamples } from './code-examples/lifecycleSort.example';
 import { isComponentClass } from './shared/utils';
+import { LIFECYCLE_METHODS } from "./shared/constants";
 
 type Options = 'call-order' | 'alphabetical';
 
@@ -43,13 +44,6 @@ export class Rule extends Lint.Rules.AbstractRule {
     }
     public static CALL_ORDER_FAILURE_STRING = 'Component lifecycle methods should be ordered according to their call order';
     public static ALPHABETICAL_FAILURE_STRING = 'Component lifecycle methods should be ordered alphabetically';
-    public static LIFECYCLE_METHODS = [
-        'componentWillLoad',
-        'componentDidLoad',
-        'componentWillUpdate',
-        'componentDidUpdate',
-        'componentDidUnload'
-    ]
 
     public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
         let args = this.getOptions().ruleArguments[0];
@@ -73,13 +67,13 @@ function walk(ctx: Lint.WalkContext<Options>) {
         if (!ts.isClassDeclaration(node)) return;
         if (!isComponentClass(node)) return;
 
-        const match = (ctx.options === 'call-order') ? [...Rule.LIFECYCLE_METHODS] : [...Rule.LIFECYCLE_METHODS].sort();
+        const match = (ctx.options === 'call-order') ? [...LIFECYCLE_METHODS] : [...LIFECYCLE_METHODS].sort();
 
         const nodes = new Map<string, ts.Node>();
         const names: string[] = [];
         
         node.members.forEach((member) => {
-            if (member.name && ts.isIdentifier(member.name) && Rule.LIFECYCLE_METHODS.includes(member.name.text)) {
+            if (member.name && ts.isIdentifier(member.name) && LIFECYCLE_METHODS.includes(member.name.text)) {
                 nodes.set(member.name.text, member.name);
                 names.push(member.name.text);
             }
