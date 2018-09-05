@@ -18,6 +18,8 @@ One argument, which is an object, must be provided. It should contain an `"order
     - `state`, which refers to `@State()` decorated properties
     - `stencil-method`, which refers to Stencil methods (such as `hostData` or `render`)
     - `watch`, which refers to `@Watch()` decorated methods
+    - `watched-prop`, which refers to `@Prop()` decorated properties that have a `@Watch()` method
+    - `watched-state`, which refers to `@State()` decorated properties that have a `@Watch()` method
         
 
 ### Config examples
@@ -30,8 +32,10 @@ One argument, which is an object, must be provided. It should contain an `"order
                         "own-prop",
                         "element",
                         "state",
+                        "watched-state",
                         "internal-prop",
                         "prop",
+                        "watched-prop",
                         "event",
                         "lifecycle",
                         "listen",
@@ -77,7 +81,9 @@ One argument, which is an object, must be provided. It should contain an `"order
           "prop",
           "state",
           "stencil-method",
-          "watch"
+          "watch",
+          "watched-state",
+          "watched-prop"
         ]
       },
       "minLength": 2,
