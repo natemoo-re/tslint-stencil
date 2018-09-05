@@ -43,7 +43,7 @@ async function postVerify() {
     } catch (e) {
         loading.stop(true);
         console.log(`${red('✖')} ${bold('Unable to push to Git')}\n`);
-        console.log(e);
+        console.log(e.stderr);
         process.exit(1);
     }
 }
