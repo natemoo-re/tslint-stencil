@@ -1,6 +1,6 @@
 {
     "rulesDirectory": ["../../../../rules"],
     "rules": {
-        "one-component-per-file": true
+        "components-per-file": [true, 3]
     }
 }

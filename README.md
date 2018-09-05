@@ -26,6 +26,9 @@ Alternatively, you can extend the bare package and enable each [rule](#rules) on
 ### [`ban-prefix`](docs/ban-prefix.md)
 Ensures that a Component's `tag` does not use any of the given prefixes.
 
+### [`components-per-file`](docs/components-per-file.md)
+Allows a maximum number of Components to be placed in a single file
+
 ### [`decorated-member-style`](docs/decorated-member-style.md)
 Requires decorated class members to follow a consistent style (singleline or multiline)
 
@@ -34,9 +37,6 @@ Requires decorated class members to follow a consistent style (singleline or mul
 
 ### [`lifecycle-order`](docs/lifecycle-order.md)
 Ensures that Component lifecycle methods are ordered consistently
-
-### [`one-component-per-file`](docs/one-component-per-file.md)
-
 
 ### [`render-as-final-method`](docs/render-as-final-method.md)
 

@@ -19,4 +19,4 @@ export class ElementA { }
 export class ElementA { }
 ~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
 
-[failure]: Files may only contain a single component
+[failure]: Files may only contain 1 component
