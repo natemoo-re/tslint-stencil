@@ -180,8 +180,9 @@ function walk(ctx: Lint.WalkContext<Options>) {
                 const follows = followsOrder(actual, order);
                 if (!follows) {
                     const group: ComponentMember = firstGroupOutOfOrder(actual, order) as ComponentMember;
-                    const next = actual[actual.indexOf(group) + 1];
-                    const prev = actual[actual.indexOf(group) - 1];
+                    const existing = order.filter(x => actual.includes(x));
+                    const next = existing[existing.indexOf(group) + 1];
+                    const prev = existing[existing.indexOf(group) - 1];
                     collected.filter(x => x.key === group).map((item) => {
                         ctx.addFailureAtNode(item.node, Rule.FAILURE_STRING_ORDER.replace('%a', group).replace('%b', () => {
                             if (next && prev) {
