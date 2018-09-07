@@ -46,7 +46,6 @@ export class Rule extends Lint.Rules.AbstractRule {
         typescriptOnly: true
     }
     public static FAILURE_STRING_ORDER = 'Stencil methods should be in the following order: "%s"';
-    public static FAILURE_STRING_GROUP = 'Stencil methods should all be grouped together';
 
     public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
         const options: Options = this.getOptions().ruleArguments[0];
@@ -75,8 +74,6 @@ function walk(ctx: Lint.WalkContext<Options>) {
                 const name: any = node.name.text;
                 if (STENCIL_METHODS.includes(name)) {
                     found[componentIndex].push({ node, name });
-                } else {
-                    if (found[componentIndex].length >= 1) { ctx.addFailureAtNode(node, Rule.FAILURE_STRING_GROUP); }
                 }
             }
         }
