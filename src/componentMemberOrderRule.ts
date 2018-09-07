@@ -224,7 +224,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
                 if (!order) actual = Array.from(new Set(collected.map((value) => value.key)));
                 
                 const groups = actual.map(key => {
-                    if (key === 'lifecycle') { return { key, alphabetical: true } };
+                    if (key === 'lifecycle' || key === 'stencil-method') { return { key, alphabetical: true } };
                     const group = collected.filter(x => x.key === key).map(x => x.name);
                     const alpha = group.every((item, i, arr) => {
                         const next = arr[i + 1];
