@@ -42,8 +42,8 @@ export class Rule extends Lint.Rules.AbstractRule {
         typescriptOnly: true,
         codeExamples
     }
-    public static CALL_ORDER_FAILURE_STRING = 'Component lifecycle methods should be ordered according to their call order';
-    public static ALPHABETICAL_FAILURE_STRING = 'Component lifecycle methods should be ordered alphabetically';
+    public static FAILURE_STRING_CALL_ORDER = 'Component lifecycle methods should be ordered according to their call order';
+    public static FAILURE_STRING_ALPHABETICAL = 'Component lifecycle methods should be ordered alphabetically';
 
     public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
         let args = this.getOptions().ruleArguments[0];
@@ -100,6 +100,6 @@ function walk(ctx: Lint.WalkContext<Options>) {
 
 function getFailureString(options: Options): string {
     return (options === 'call-order')
-        ? Rule.CALL_ORDER_FAILURE_STRING
-        : Rule.ALPHABETICAL_FAILURE_STRING;
+        ? Rule.FAILURE_STRING_CALL_ORDER
+        : Rule.FAILURE_STRING_ALPHABETICAL;
 }
