@@ -12,11 +12,11 @@ export class Component {
 })
 export class Component {
   @Prop() propA: string;
-  ~~~~~~~~~~~~~~~~~~~~~~ [failure]
+  ~~~~~~~~~~~~~~~~~~~~~~
   @Prop() propC: string;
-  ~~~~~~~~~~~~~~~~~~~~~~ [failure]
+~~~~~~~~~~~~~~~~~~~~~~~~
   @Prop() propB: string;
-  ~~~~~~~~~~~~~~~~~~~~~~ [failure]
+~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
 }
 
 [failure]: Component members of the same type should be alphabetized

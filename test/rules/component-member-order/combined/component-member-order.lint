@@ -11,10 +11,11 @@ export class Component {
 })
 export class Component {
   @Prop() myPropB: string;
-  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-group]
+  ~~~~~~~~~~~~~~~~~~~~~~~~
   @Event() myEvent: EventEmitter<void>;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   @Prop() myPropA: string;
-  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-group]
+~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure-group]
 }
 
 @Component({
@@ -25,11 +26,11 @@ export class Component {
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure-order]
   
   @Prop() myPropA: string;
-  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
+  ~~~~~~~~~~~~~~~~~~~~~~~~
   @Prop() myPropC: string;
-  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
+~~~~~~~~~~~~~~~~~~~~~~~~~~
   @Prop() myPropB: string;
-  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
+~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
 }
 
 @Component({
@@ -37,11 +38,11 @@ export class Component {
 })
 export class Component {
   @Prop() myPropA: string;
-  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
+  ~~~~~~~~~~~~~~~~~~~~~~~~
   @Prop() myPropC: string;
-  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
+~~~~~~~~~~~~~~~~~~~~~~~~~~
   @Prop() myPropB: string;
-  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
+~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure-alphabetical]
 
   @Event() myEvent: EventEmitter<void>;
 }

@@ -169,9 +169,10 @@ function walk(ctx: Lint.WalkContext<Options>) {
                         groups = ungrouped.filter(x => x !== 'prop' && x !== 'watch')
                     }
     
-                    collected.filter(x => groups.includes(x.key)).map((item) => {
-                        return ctx.addFailureAtNode(item.node, Rule.FAILURE_STRING_GROUP);
-                    })
+                    if (groups.length) {
+                        const failures = [...collected.filter(x => groups.includes(x.key))].map(x => x.node);
+                        return addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_GROUP);
+                    }
                     return;
                 }
     
@@ -181,8 +182,8 @@ function walk(ctx: Lint.WalkContext<Options>) {
                 if (!follows) {
                     const group: ComponentMember = firstGroupOutOfOrder(actual, order) as ComponentMember;
                     const existing = order.filter(x => actual.includes(x));
-                    const next = existing[existing.indexOf(group) + 1];
                     const prev = existing[existing.indexOf(group) - 1];
+                    const next = existing[existing.indexOf(group) + 1];
                     collected.filter(x => x.key === group).map((item) => {
                         ctx.addFailureAtNode(item.node, Rule.FAILURE_STRING_ORDER.replace('%a', group).replace('%b', () => {
                             if (next && prev) {
@@ -190,7 +191,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
                             } else if (next) {
                                 return `after "${next}"`;
                             } else {
-                                return `before "${prev}"`;
+                                return (existing.length === 2) ? `after "${prev}"` : `before "${prev}"`;
                             }
                         }));
                     })
@@ -237,9 +238,10 @@ function walk(ctx: Lint.WalkContext<Options>) {
                     .filter(x => !x.alphabetical)
                     .map(x => x.key);
                 
-                collected.filter(x => groups.includes(x.key)).map((item) => {
-                    return ctx.addFailureAtNode(item.node, Rule.FAILURE_STRING_ALPHABETICAL);
-                });
+                if (groups.length) {
+                    const failures = [...collected.filter(x => groups.includes(x.key))].map(x => x.node);
+                    return addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_ALPHABETICAL);
+                }
             }
         }
         
@@ -280,4 +282,16 @@ function getOrderKey(node: ts.Node): ComponentMember | false {
     }
 
     return key;
+}
+
+function addFailureToNodeGroup(ctx: Lint.WalkContext<any>, nodes: ts.Node[], failure: string, fix?: Lint.Replacement | Lint.Replacement[]) {
+    if (nodes.length === 1) {
+        ctx.addFailureAtNode(nodes[0], failure, fix);
+    } else {
+        const start = nodes[0].getStart(ctx.sourceFile);
+        const width = nodes[nodes.length - 1].getEnd() - start;
+        
+        return ctx.addFailureAt(start, width, failure, fix);
+    }
+    
 }

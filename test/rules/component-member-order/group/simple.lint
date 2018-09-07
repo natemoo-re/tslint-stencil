@@ -9,10 +9,11 @@ export class Component {
   @Element() el: HTMLElement;
 
   @Prop() content: string;
-  ~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+  ~~~~~~~~~~~~~~~~~~~~~~~~
   @State() isOpen = false;
+~~~~~~~~~~~~~~~~~~~~~~~~~~
   @Prop() enabled: boolean;
-  ~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
 
   componentWillLoad() {}
   componentDidLoad() {}
