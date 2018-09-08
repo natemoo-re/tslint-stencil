@@ -125,12 +125,11 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
                 
                 if (style === 'singleline') {
                     if (decoratorLine !== propertyLine) {
-                        // node.getText(this.getSourceFile()).indexOf('\n')
-                        // const fix = this.deleteText();
                         return this.addFailureAtNode(node, Rule.FAILURE_STRING_SINGLE.replace('%s', 'method'));
                     }
                 } else if (style === 'multiline') {
-                    if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'method'));
+                    const fix = Lint.Replacement.appendText(node.name.getStart(this.getSourceFile()) - 1, '\n');
+                    if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'method'), fix);
                 }
             }
         };
