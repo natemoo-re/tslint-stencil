@@ -125,10 +125,11 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
                 
                 if (style === 'singleline') {
                     if (decoratorLine !== propertyLine) {
-                        return this.addFailureAtNode(node, Rule.FAILURE_STRING_SINGLE.replace('%s', 'method'));
+                        const fix = Lint.Replacement.replaceFromTo(dec.end + 1, dec.end + 2, ' ');
+                        return this.addFailureAtNode(node, Rule.FAILURE_STRING_SINGLE.replace('%s', 'method'), fix);
                     }
                 } else if (style === 'multiline') {
-                    const fix = Lint.Replacement.appendText(node.name.getStart(this.getSourceFile()) - 1, '\n');
+                    const fix = Lint.Replacement.appendText(dec.end + 1, '\n');
                     if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'method'), fix);
                 }
             }
@@ -149,9 +150,13 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
             const { line: propertyLine } = this.getLineAndCharacterOfPosition(node.name.getEnd());
 
             if (style === 'singleline') {
-                if (decoratorLine !== propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_SINGLE.replace('%s', 'property'));
+                if (decoratorLine !== propertyLine) {
+                    const fix = Lint.Replacement.replaceFromTo(dec.end + 1, dec.end + 2, ' ');
+                    return this.addFailureAtNode(node, Rule.FAILURE_STRING_SINGLE.replace('%s', 'property'), fix);
+                }
             } else if (style === 'multiline') {
-                if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'property'));
+                const fix = Lint.Replacement.appendText(dec.end + 1, '\n');
+                if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'property'), fix);
             }
 
         };
