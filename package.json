@@ -1,6 +1,6 @@
 {
   "name": "tslint-stencil",
-  "version": "1.0.0-alpha.20",
+  "version": "1.0.0-alpha.21",
   "description": "Adds stylistic rules to tslint for Stencil projects",
   "keywords": [
     "tslint",
