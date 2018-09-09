@@ -52,6 +52,16 @@ export function getIndentationAtNode(node: ts.Node, sourceFile: ts.SourceFile): 
     return text[0] as string;
 }
 
+export function getFirstNonDecoratorToken(node: ts.Node): ts.Node|false {
+    
+    let token: boolean|ts.Node = false;
+    function isNonDecorator(node: ts.Node) {
+        if (!token) token = !ts.isDecorator(node) && node;
+    }
+    node.forEachChild(isNonDecorator);
+    return token;
+}
+
 // TODO Actual Implementation
 export function getDecoratorArgs<T>(dec: ts.Decorator): T|null {
     const args = dec.expression && ts.isCallExpression(dec.expression) && ts.isStringLiteral(dec.expression.arguments[0]) && (dec.expression.arguments[0] as any).text;

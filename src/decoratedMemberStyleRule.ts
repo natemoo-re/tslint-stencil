@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 import * as Lint from "tslint";
-import { isComponentClass, getIndentationAtNode } from './shared/utils';
+import { isComponentClass, getIndentationAtNode, getFirstNonDecoratorToken } from './shared/utils';
 import { codeExamples } from './code-examples/decoratedMemberStyle.examples'
 
 interface Options {
@@ -157,7 +157,9 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
                 }
             } else if (style === 'multiline') {
                 const indent = getIndentationAtNode(node, this.getSourceFile());
-                const fix = [Lint.Replacement.replaceFromTo(dec.pos, dec.end, dec.getFullText(this.getSourceFile()).trimRight()), Lint.Replacement.appendText(dec.end + 1, `\n${indent}`)];
+                let token = getFirstNonDecoratorToken(node);
+
+                const fix = [Lint.Replacement.replaceFromTo(dec.pos, dec.end, dec.getFullText(this.getSourceFile()).trimRight()), Lint.Replacement.appendText(token ? token.pos : dec.end, `\n${indent}`)];
                 if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'property'), fix);
             }
 

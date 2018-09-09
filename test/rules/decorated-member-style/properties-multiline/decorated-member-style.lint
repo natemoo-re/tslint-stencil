@@ -7,8 +7,8 @@ export class ElementA {
     
     ownProp = false;
 
-    @Prop() mySingleProp: string;
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+    @Prop() protected mySingleProp: string;
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
 
     @Prop()
     myMultiProp: string;
