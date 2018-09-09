@@ -155,7 +155,7 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
                     return this.addFailureAtNode(node, Rule.FAILURE_STRING_SINGLE.replace('%s', 'property'), fix);
                 }
             } else if (style === 'multiline') {
-                const fix = Lint.Replacement.replaceNode(node, node.getFullText(this.getSourceFile()).replace('\n', ''));
+                const fix = Lint.Replacement.replaceFromTo(dec.end, node.pos, ' ');
                 if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'property'), fix);
             }
 
