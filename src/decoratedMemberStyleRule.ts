@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 import * as Lint from "tslint";
-import { isComponentClass } from './shared/utils';
+import { isComponentClass, getIndentationAtNode } from './shared/utils';
 import { codeExamples } from './code-examples/decoratedMemberStyle.examples'
 
 interface Options {
@@ -129,7 +129,8 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
                         return this.addFailureAtNode(node, Rule.FAILURE_STRING_SINGLE.replace('%s', 'method'), fix);
                     }
                 } else if (style === 'multiline') {
-                    const fix = Lint.Replacement.appendText(dec.end + 1, '\n');
+                    const indent = getIndentationAtNode(node, this.getSourceFile());
+                    const fix = Lint.Replacement.appendText(dec.end, `\n${indent}`);
                     if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'method'), fix);
                 }
             }
@@ -155,7 +156,8 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
                     return this.addFailureAtNode(node, Rule.FAILURE_STRING_SINGLE.replace('%s', 'property'), fix);
                 }
             } else if (style === 'multiline') {
-                const fix = Lint.Replacement.replaceFromTo(dec.end, node.pos, ' ');
+                const indent = getIndentationAtNode(node, this.getSourceFile());
+                const fix = Lint.Replacement.appendText(dec.end, `\n${indent}`);
                 if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'property'), fix);
             }
 

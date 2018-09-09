@@ -42,6 +42,16 @@ export function hasDecoratorNamed(name: string): (dec: ts.Decorator) => boolean 
     };
 }
 
+export function getIndentationAtNode(node: ts.Node, sourceFile: ts.SourceFile): string {
+    const text = node.getFullText(sourceFile).split('\n')
+        .map(ln => {
+            const text = /^(\s+)\S/g.exec(ln);
+            return text ? text[1] : false;
+        })
+        .filter(x => x);
+    return text[0] as string;
+}
+
 // TODO Actual Implementation
 export function getDecoratorArgs<T>(dec: ts.Decorator): T|null {
     const args = dec.expression && ts.isCallExpression(dec.expression) && ts.isStringLiteral(dec.expression.arguments[0]) && (dec.expression.arguments[0] as any).text;
