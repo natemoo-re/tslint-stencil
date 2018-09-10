@@ -158,11 +158,12 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
             } else if (style === 'multiline') {
                 const indent = getIndentationAtNode(node, this.getSourceFile());
                 let token = getFirstNonDecoratorToken(node);
-                const fix = [];
+                let fix: Lint.Replacement[] = [];
 
                 if (token) {
-                    fix.push(Lint.Replacement.replaceFromTo(dec.getStart(this.getSourceFile()), token.getStart(this.getSourceFile()), dec.getFullText(this.getSourceFile()).trimRight()));
-                    fix.push(Lint.Replacement.appendText(token.getStart(this.getSourceFile()), `\n${indent}`));
+                    const decStart = dec.getFullStart();
+                    const tokenStart = token.getStart(this.getSourceFile())
+                    fix = [Lint.Replacement.replaceFromTo(decStart, tokenStart, dec.getFullText(this.getSourceFile()).trimRight()), Lint.Replacement.appendText(tokenStart, `\n${indent}`)];
                 }
 
                 if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'property'), fix);
