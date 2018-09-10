@@ -212,8 +212,8 @@ function createFixMultilineDecorators(node: ts.Node, sourceFile: ts.SourceFile):
         const tokenStart = token.getStart(sourceFile);
 
         fix.push(Lint.Replacement.replaceFromTo(decStart, tokenStart, node.decorators!.map(dec => {
-            return `${indent}${dec.getFullText(sourceFile).trim()}`;
-        }).join('\n')
+            return dec.getFullText(sourceFile).trim();
+        }).join(`\n${indent}`)
         ));
         fix.push(Lint.Replacement.appendText(tokenStart, `\n${indent}`));
     }
