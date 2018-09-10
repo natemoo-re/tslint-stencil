@@ -125,7 +125,7 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
                 
                 if (style === 'singleline') {
                     if (decoratorLine !== propertyLine) {
-                        const fix = Lint.Replacement.replaceFromTo(dec.end, dec.end + 1, ' ');
+                        const fix = createFixSingleline(node, this.getSourceFile());
                         return this.addFailureAtNode(node, Rule.FAILURE_STRING_SINGLE.replace('%s', 'method'), fix);
                     }
                 } else if (style === 'multiline') {
@@ -151,7 +151,7 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
 
             if (style === 'singleline') {
                 if (decoratorLine !== propertyLine) {
-                    const fix = Lint.Replacement.replaceFromTo(dec.end, node.getFirstToken(this.getSourceFile())!.pos, ' ');
+                    const fix = createFixSingleline(node, this.getSourceFile());
                     return this.addFailureAtNode(node, Rule.FAILURE_STRING_SINGLE.replace('%s', 'property'), fix);
                 }
             } else if (style === 'multiline') {
@@ -163,6 +163,20 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
 
         super.visitPropertyDeclaration(node);
     }
+}
+
+function createFixSingleline(node: ts.Node, sourceFile: ts.SourceFile): Lint.Replacement[] {
+    const dec: ts.Decorator = node.decorators![node.decorators!.length - 1];
+    let token = getFirstNonDecoratorToken(node);
+    let fix: Lint.Replacement[] = [];
+
+    if (token) {
+        const decEnd = dec.getEnd();
+        const tokenStart = token.getStart(sourceFile);
+        fix.push(Lint.Replacement.replaceFromTo(decEnd, tokenStart, ' '));
+    }
+
+    return fix;
 }
 
 function createFixMultiline(node: ts.Node, sourceFile: ts.SourceFile): Lint.Replacement[] {
