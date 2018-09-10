@@ -68,6 +68,7 @@ export class Rule extends Lint.Rules.AbstractRule {
         ],
         type: 'style',
         typescriptOnly: true,
+        hasFix: true,
         codeExamples
     }
 

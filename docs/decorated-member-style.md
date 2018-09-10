@@ -3,6 +3,8 @@
 
 Requires decorated class members to follow a consistent style (singleline or multiline)
 
+**`🛠 Has Fixer`**
+
 ## Config
 
 One argument which is an object with the keys `"properties"` and `"methods"`. Both can be set to a string, which must be one of the following values:

@@ -35,23 +35,14 @@ Allows a maximum number of Components to be placed in a single file
 ### [`decorated-member-style`](docs/decorated-member-style.md)
 Requires decorated class members to follow a consistent style (singleline or multiline)
 
-### [`host-data-precedes-render`](docs/host-data-precedes-render.md)
-
-
 ### [`lifecycle-order`](docs/lifecycle-order.md)
 Ensures that Component lifecycle methods are ordered consistently
-
-### [`render-as-final-method`](docs/render-as-final-method.md)
-
 
 ### [`require-prefix`](docs/require-prefix.md)
 Ensures that a Component's `tag` begins with the given prefix(es).
 
 ### [`stencil-method-order`](docs/stencil-method-order.md)
 Ensures that Stencil methods (`hostData`, `render`) are ordered consistently
-
-### [`watch-follows-prop`](docs/watch-follows-prop.md)
-
 
 ## Contributing
 Rules in the `src/` directory must be **camelCased** and end in **Rule**.
