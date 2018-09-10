@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 import * as Lint from "tslint";
-import { isComponentClass, getDeclarationParameters, hasDecoratorNamed, followsOrder, checkGroupings, firstGroupOutOfOrder } from "./shared/utils";
+import { isComponentClass, getDeclarationParameters, hasDecoratorNamed, followsOrder, checkGroupings, firstGroupOutOfOrder, getIndentationAtNode } from "./shared/utils";
 import { LIFECYCLE_METHODS, STENCIL_METHODS } from './shared/constants';
 
 type ComponentMember =
@@ -303,11 +303,13 @@ function addFailureToNodeGroup(ctx: Lint.WalkContext<any>, nodes: ts.Node[], fai
     }   
 }
 
-function createFixAlphabetical(collected: ComponentMetadata[], sourceFile?: ts.SourceFile) {
+function createFixAlphabetical(collected: ComponentMetadata[], sourceFile: ts.SourceFile) {
     const fix: Lint.Replacement[] = [];
     const nodes = collected.map(x => x.node);
     const start = nodes[0].getStart(sourceFile, true);
     const end = nodes[nodes.length - 1].getEnd();
+    const indent = getIndentationAtNode(nodes[0], sourceFile);
+    const [, leadingWhitespace] = nodes[0].getFullText(sourceFile).match(/(^\s*)\S/gm);
     
     const sorted = [...collected]
         .sort((a, b) => {
@@ -319,8 +321,8 @@ function createFixAlphabetical(collected: ComponentMetadata[], sourceFile?: ts.S
         })
         .map(({ node }, i) => {
             const text = node.getFullText(sourceFile);
-            if (i > 0) return text.trim();
-            return text.trimRight();
+            if (i > 0) return `${indent}${text.trim()}`;
+            return `${leadingWhitespace}${text.trimRight()}`;
         })
     fix.push(Lint.Replacement.replaceFromTo(start, end, sorted.join('\n')));
 
