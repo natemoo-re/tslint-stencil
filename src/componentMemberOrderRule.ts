@@ -306,10 +306,9 @@ function addFailureToNodeGroup(ctx: Lint.WalkContext<any>, nodes: ts.Node[], fai
 function createFixAlphabetical(collected: ComponentMetadata[], sourceFile: ts.SourceFile) {
     const fix: Lint.Replacement[] = [];
     const nodes = collected.map(x => x.node);
-    const start = nodes[0].getStart(sourceFile, true);
+    const start = nodes[0].getStart(sourceFile);
     const end = nodes[nodes.length - 1].getEnd();
     const indent = getIndentationAtNode(nodes[0], sourceFile);
-    const [, leadingWhitespace] = /(^\s*)\S/gm.exec(nodes[0].getFullText(sourceFile));
     
     const sorted = [...collected]
         .sort((a, b) => {
@@ -321,7 +320,7 @@ function createFixAlphabetical(collected: ComponentMetadata[], sourceFile: ts.So
         })
         .map(({ node }, i) => {
             const text = node.getFullText(sourceFile);
-            if (i === 0) return `${leadingWhitespace}${text.trim()}`;
+            if (i === 0) return `${text.trim()}`;
             else return `${indent}${text.trim()}`;
         })
     fix.push(Lint.Replacement.replaceFromTo(start, end, sorted.join('\n')));
