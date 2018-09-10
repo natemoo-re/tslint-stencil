@@ -18,6 +18,11 @@ type ComponentMember =
     | "watch"
     | "watched-prop"
     | "watched-state";
+interface ComponentMetadata {
+    name: string;
+    key: ComponentMember;
+    node: ts.Node
+}
 type Options = {
     "order": ComponentMember[],
     "watch-follows-prop": boolean,
@@ -30,6 +35,7 @@ export class Rule extends Lint.Rules.AbstractRule {
         description: 'Ensures that Component members are ordered consistently',
         optionsDescription: Lint.Utils.dedent`
             One argument, which is an object, must be provided. It should contain an \`"order"\` property. The \`"order"\` property should be an array consisting of the following strings:
+
                 - \`element\`, which refers to \`@Element()\` decorated properties
                 - \`event\`, which refers to \`@Event()\` decorated properties
                 - \`internal-prop\`, which refers to \`@Prop()\` decorated properties using \`context\` or \`connect\`
@@ -44,6 +50,7 @@ export class Rule extends Lint.Rules.AbstractRule {
                 - \`watch\`, which refers to \`@Watch()\` decorated methods
                 - \`watched-prop\`, which refers to \`@Prop()\` decorated properties that have a \`@Watch()\` method
                 - \`watched-state\`, which refers to \`@State()\` decorated properties that have a \`@Watch()\` method
+
         `,
         options: {
             "type": "object",
@@ -138,7 +145,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
     const { order, "watch-follows-prop": watchFollowsProp, alphabetical } = ctx.options;
 
     function cb(node: ts.Node): void {
-        let collected: { name: string, key: ComponentMember, node: ts.Node}[] = [];
+        let collected: ComponentMetadata[] = [];
 
         if (ts.isClassDeclaration(node) && isComponentClass(node)) {
             node.members.forEach((member) => {
@@ -239,8 +246,9 @@ function walk(ctx: Lint.WalkContext<Options>) {
                     .map(x => x.key);
                 
                 if (groups.length) {
-                    const failures = [...collected.filter(x => groups.includes(x.key))].map(x => x.node);
-                    return addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_ALPHABETICAL);
+                    const failures = [...collected.filter(x => groups.includes(x.key))];
+                    const fix = createFixAlphabetical(failures, ctx.sourceFile);
+                    return addFailureToNodeGroup(ctx, failures.map(x => x.node), Rule.FAILURE_STRING_ALPHABETICAL, fix);
                 }
             }
         }
@@ -292,6 +300,29 @@ function addFailureToNodeGroup(ctx: Lint.WalkContext<any>, nodes: ts.Node[], fai
         const width = nodes[nodes.length - 1].getEnd() - start;
         
         return ctx.addFailureAt(start, width, failure, fix);
-    }
+    }   
+}
+
+function createFixAlphabetical(collected: ComponentMetadata[], sourceFile?: ts.SourceFile) {
+    const fix: Lint.Replacement[] = [];
+    const nodes = collected.map(x => x.node);
+    const start = nodes[0].getStart(sourceFile, true);
+    const end = nodes[nodes.length - 1].getEnd();
     
+    const sorted = [...collected]
+        .sort((a, b) => {
+            const nameA = a.name.toUpperCase();
+            const nameB = b.name.toUpperCase();
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            return 0;
+        })
+        .map(({ node }, i) => {
+            const text = node.getFullText(sourceFile);
+            if (i > 0) return text.trim();
+            return text.trimRight();
+        })
+    fix.push(Lint.Replacement.replaceFromTo(start, end, sorted.join('\n')));
+
+    return fix;
 }
