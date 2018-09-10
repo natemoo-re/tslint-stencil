@@ -129,8 +129,7 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
                         return this.addFailureAtNode(node, Rule.FAILURE_STRING_SINGLE.replace('%s', 'method'), fix);
                     }
                 } else if (style === 'multiline') {
-                    const indent = getIndentationAtNode(node, this.getSourceFile());
-                    const fix = Lint.Replacement.appendText(dec.end, `\n${indent}`);
+                    const fix = createFixMultiline(node, this.getSourceFile());
                     if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'method'), fix);
                 }
             }
@@ -156,16 +155,7 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
                     return this.addFailureAtNode(node, Rule.FAILURE_STRING_SINGLE.replace('%s', 'property'), fix);
                 }
             } else if (style === 'multiline') {
-                const indent = getIndentationAtNode(node, this.getSourceFile());
-                let token = getFirstNonDecoratorToken(node);
-                let fix: Lint.Replacement[] = [];
-
-                if (token) {
-                    const decStart = dec.getFullStart();
-                    const tokenStart = token.getStart(this.getSourceFile())
-                    fix = [Lint.Replacement.replaceFromTo(decStart, tokenStart, dec.getFullText(this.getSourceFile()).trimRight()), Lint.Replacement.appendText(tokenStart, `\n${indent}`)];
-                }
-
+                const fix = createFixMultiline(node, this.getSourceFile());
                 if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'property'), fix);
             }
 
@@ -173,4 +163,20 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
 
         super.visitPropertyDeclaration(node);
     }
+}
+
+function createFixMultiline(node: ts.Node, sourceFile: ts.SourceFile): Lint.Replacement[] {
+    const dec: ts.Decorator = node.decorators![node.decorators!.length - 1];
+    const indent = getIndentationAtNode(node, sourceFile);
+    let token = getFirstNonDecoratorToken(node);
+    let fix: Lint.Replacement[] = [];
+
+    if (token) {
+        const decStart = dec.getFullStart();
+        const tokenStart = token.getStart(sourceFile);
+        fix.push(Lint.Replacement.replaceFromTo(decStart, tokenStart, dec.getFullText(sourceFile).trimRight()))
+        fix.push(Lint.Replacement.appendText(tokenStart, `\n${indent}`));
+    }
+
+    return fix;
 }
