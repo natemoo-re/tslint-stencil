@@ -161,8 +161,8 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
                 const fix = [];
 
                 if (token) {
-                    fix.push(Lint.Replacement.replaceFromTo(dec.pos, token.pos, dec.getFullText(this.getSourceFile()).trim()));
-                    fix.push(Lint.Replacement.appendText(token.pos, `\n${indent}`));
+                    fix.push(Lint.Replacement.replaceFromTo(dec.getStart(this.getSourceFile()), token.getStart(this.getSourceFile()), dec.getFullText(this.getSourceFile()).trimRight()));
+                    fix.push(Lint.Replacement.appendText(token.getStart(this.getSourceFile()), `\n${indent}`));
                 }
 
                 if (decoratorLine === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'property'), fix);
