@@ -115,8 +115,14 @@ class MethodDecoratorWalker extends Lint.RuleWalker {
                     return line > decoratorLines[i - 1];
                 })
 
-                if (!allMultiline) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI_COMPOSITION.replace('%s', 'method'));
-                if (decoratorLines[decoratorLines.length - 1] === propertyLine) return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'method'));
+                if (!allMultiline) {
+                    const fix = createFixMultilineDecorators(node, this.getSourceFile());
+                    return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI_COMPOSITION.replace('%s', 'method'), fix);
+                }
+                if (decoratorLines[decoratorLines.length - 1] === propertyLine) {
+                    const fix = createFixMultiline(node, this.getSourceFile());
+                    return this.addFailureAtNode(node, Rule.FAILURE_STRING_MULTI.replace('%s', 'method'), fix);
+                }
             } else {
                 const dec: ts.Decorator = node.decorators[node.decorators.length - 1];
                 
@@ -189,6 +195,26 @@ function createFixMultiline(node: ts.Node, sourceFile: ts.SourceFile): Lint.Repl
         const decStart = dec.getFullStart();
         const tokenStart = token.getStart(sourceFile);
         fix.push(Lint.Replacement.replaceFromTo(decStart, tokenStart, dec.getFullText(sourceFile).trimRight()))
+        fix.push(Lint.Replacement.appendText(tokenStart, `\n${indent}`));
+    }
+
+    return fix;
+}
+
+function createFixMultilineDecorators(node: ts.Node, sourceFile: ts.SourceFile): Lint.Replacement[] {
+    const decFirst: ts.Decorator = node.decorators![0];
+    const indent = getIndentationAtNode(node, sourceFile);
+    let token = getFirstNonDecoratorToken(node);
+    let fix: Lint.Replacement[] = [];
+
+    if (token) {
+        const decStart = decFirst.getFullStart();
+        const tokenStart = token.getStart(sourceFile);
+
+        fix.push(Lint.Replacement.replaceFromTo(decStart, tokenStart, node.decorators!.map(dec => {
+            return dec.getFullText(sourceFile).trimRight();
+        }).join('\n')
+        ));
         fix.push(Lint.Replacement.appendText(tokenStart, `\n${indent}`));
     }
 
