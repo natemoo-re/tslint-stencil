@@ -296,7 +296,7 @@ function addFailureToNodeGroup(ctx: Lint.WalkContext<any>, nodes: ts.Node[], fai
     if (nodes.length === 1) {
         ctx.addFailureAtNode(nodes[0], failure, fix);
     } else {
-        const start = nodes[0].getStart(ctx.sourceFile);
+        const start = nodes[0].getStart(ctx.sourceFile, true);
         const width = nodes[nodes.length - 1].getEnd() - start;
         
         return ctx.addFailureAt(start, width, failure, fix);
@@ -306,7 +306,7 @@ function addFailureToNodeGroup(ctx: Lint.WalkContext<any>, nodes: ts.Node[], fai
 function createFixAlphabetical(collected: ComponentMetadata[], sourceFile: ts.SourceFile) {
     const fix: Lint.Replacement[] = [];
     const nodes = collected.map(x => x.node);
-    const start = nodes[0].getStart(sourceFile);
+    const start = nodes[0].getStart(sourceFile, true);
     const end = nodes[nodes.length - 1].getEnd();
     const indent = getIndentationAtNode(nodes[0], sourceFile);
     
