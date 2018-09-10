@@ -6,6 +6,7 @@ Ensures that Component members are ordered consistently
 ## Config
 
 One argument, which is an object, must be provided. It should contain an `"order"` property. The `"order"` property should be an array consisting of the following strings:
+
     - `element`, which refers to `@Element()` decorated properties
     - `event`, which refers to `@Event()` decorated properties
     - `internal-prop`, which refers to `@Prop()` decorated properties using `context` or `connect`
@@ -20,6 +21,7 @@ One argument, which is an object, must be provided. It should contain an `"order
     - `watch`, which refers to `@Watch()` decorated methods
     - `watched-prop`, which refers to `@Prop()` decorated properties that have a `@Watch()` method
     - `watched-state`, which refers to `@State()` decorated properties that have a `@Watch()` method
+
         
 
 ### Config examples
