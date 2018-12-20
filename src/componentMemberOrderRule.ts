@@ -191,17 +191,17 @@ function walk(ctx: Lint.WalkContext<Options>) {
                     const existing = order.filter(x => actual.includes(x));
                     const prev = existing[existing.indexOf(group) - 1];
                     const next = existing[existing.indexOf(group) + 1];
-                    collected.filter(x => x.key === group).map((item) => {
-                        ctx.addFailureAtNode(item.node, Rule.FAILURE_STRING_ORDER.replace('%a', group).replace('%b', () => {
-                            if (next && prev) {
-                                return `between "${prev}" and "${next}"`
-                            } else if (next) {
-                                return `after "${next}"`;
-                            } else {
-                                return (existing.length === 2) ? `after "${prev}"` : `before "${prev}"`;
-                            }
-                        }));
-                    })
+                    const failures = collected.filter(x => x.key === group).map(x => x.node);
+
+                    addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_ORDER.replace('%a', group).replace('%b', () => {
+                        if (next && prev) {
+                            return `between "${prev}" and "${next}"`
+                        } else if (next) {
+                            return `after "${next}"`;
+                        } else {
+                            return (existing.length === 2) ? `after "${prev}"` : `before "${prev}"`;
+                        }
+                    }));
                 }
             }
 
