@@ -10,10 +10,10 @@ An array of `"string"` which a Component `tag` must use as a prefix.
 
 ### Config examples
 ```ts
-{ "ban-prefix": [true, "ion"] }
+{ "require-prefix": [true, "ion"] }
 ```
 ```ts
-{ "ban-prefix": [true, "ion", "ionic"] }
+{ "require-prefix": [true, "ion", "ionic"] }
 ```
 
 ## Schema
