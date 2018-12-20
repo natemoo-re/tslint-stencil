@@ -1,0 +1,22 @@
+import { Component, Prop } from '@stencil/core';
+
+class NonComponent {
+    render() { }
+    someOtherMethod() { }
+}
+
+@Component({
+    tag: 'my-element-a'
+})
+export class ElementA { }
+
+@Component({
+~~~~~~~~~~~~
+    tag: 'my-element-b'
+~~~~~~~~~~~~~~~~~~~~~~~
+})
+~~
+export class ElementA { }
+~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+
+[failure]: Files may only contain 1 component

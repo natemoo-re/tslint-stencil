@@ -1,3 +1,4 @@
+
 # tslint-stencil
 Adds stylistic [tslint](https://github.com/palantir/tslint) rules for [Stencil](https://github.com/ionic-team/stencil) projects
 
@@ -21,109 +22,27 @@ Alternatively, you can extend the bare package and enable each [rule](#rules) on
 ```
 
 ## Rules
-### `host-data-precedes-render`
-Ensures that the `hostData()` method comes immediately before the `render()` method
 
+### [`ban-prefix`](docs/ban-prefix.md)
+Ensures that a Component's `tag` does not use any of the given prefixes.
 
-### `lifecycle-mirrors-call-order`
-Ensures that the Stencil component lifecycle methods follow the order in which they are called 
+### [`component-member-order`](docs/component-member-order.md)
+Ensures that Component members are ordered consistently
 
-*Valid Lifecycle order:*
+### [`components-per-file`](docs/components-per-file.md)
+Allows a maximum number of Components to be placed in a single file
 
-```ts
-componentWillLoad() { }
-componentDidLoad() { }
-componentWillUpdate() { }
-componentDidUpdate() { }
-componentDidUnload() { }
-```
+### [`decorated-member-style`](docs/decorated-member-style.md)
+Requires decorated class members to follow a consistent style (singleline or multiline)
 
-### `method-decorator-style` 
-Default: `multi-line`
+### [`lifecycle-order`](docs/lifecycle-order.md)
+Ensures that Component lifecycle methods are ordered consistently
 
-Ensures that component methods *(with a lowercase "m")* follow the specified style. 
+### [`require-prefix`](docs/require-prefix.md)
+Ensures that a Component's `tag` begins with the given prefix(es).
 
-**Options**
-
-| Option | Description |
-|----------------|--------------|
-|`single-line`   | All decoratored methods must be inlined |
-|`multi-line`   | All decoratored methods must be on two lines |
-
-```ts
-// single-line
-@Listen('click') handleClick() { }
-
-// multi-line
-@Listen('click') 
-handleClick() { }
-```
-
-
-### `no-stencil-prefix`
-Ensures that the @Component() decorator's `tag` property does not reference "Stencil".
-
-When enabled, the following are disallowed:
-- st-component
-- stnl-component
-- stencil-component
-
-
-### `one-component-per-file`
-Ensures that only a single @Component() decorated class exists in a file
-
-
-### `render-as-final-method`
-Ensures that `render()` is the final method of a Component
-
-
-### `variable-decorator-style`
-Default: `single-line`
-
-Ensures that component variables follow the specified style. 
-
-**Options**
-
-| Option | Description |
-|----------------|--------------|
-|`single-line`   | All decoratored variables must be inlined |
-|`multi-line`   | All decoratored variables must be on two lines |
-
-```ts
-// single-line
-@Prop() propName: string;
-
-// multi-line
-@Prop() 
-propName: string;
-```
-
-
-### `watch-follows-prop`
-Ensures that a @Watch() decorated method immediately follows the @Prop() or @State() that it watches
-
-**Invalid Usage**
-```
-@Prop() propA: string;
-@Prop() propB = false;
-@Prop() propC = false;
-
-@Watch('propA')
-propAChanged() { }
-```
-
-**Valid Usage**
-```
-@Prop() propA: string;
-
-@Watch('propA')
-propAChanged() { }
-
-@Prop() propB = false;
-@Prop() propC = false;
-```
-
-
+### [`stencil-method-order`](docs/stencil-method-order.md)
+Ensures that Stencil methods (`hostData`, `render`) are ordered consistently
 
 ## Contributing
 Rules in the `src/` directory must be **camelCased** and end in **Rule**.

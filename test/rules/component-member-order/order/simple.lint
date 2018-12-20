@@ -1,0 +1,33 @@
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  
+  @State() isOpen = false;
+  ~~~~~~~~~~~~~~~~~~~~~~~~
+  @State() isClosed = true;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+
+  num: number;
+  someText = 'default';
+  
+
+  @Prop() content: string;
+  @Prop() enabled: boolean;
+
+  componentWillLoad() {}
+  componentDidLoad() {}
+
+  @Method()
+  open() { }
+
+  render() {
+    return (
+      <div class='menu-inner page-inner'>
+        <slot></slot>
+      </div>
+    );
+  }
+}
+
+[failure]: Component member "state" should be placed between "own-prop" and "prop"

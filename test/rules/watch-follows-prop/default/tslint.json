@@ -1,6 +1,0 @@
-{
-    "rulesDirectory": ["../../../../rules"],
-    "rules": {
-        "watch-follows-prop": true
-    }
-}

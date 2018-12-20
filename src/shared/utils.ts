@@ -27,18 +27,39 @@ export function isComponentClass(node: ts.Node): node is ts.ClassDeclaration {
 }
 
 export function isIdentifierNamed(node: ts.Node, value: string): boolean {
-    if (!ts.isClassElement(node)) return false;
+    if (!(ts.isClassElement(node) || ts.isMethodDeclaration(node) || ts.isPropertyDeclaration(node))) return false;
 
     return !!(node.name && ts.isIdentifier(node.name) && node.name.text === value);
 }
 
 export function hasDecoratorNamed(name: string): (dec: ts.Decorator) => boolean {
-    return (dec: ts.Decorator) => (
-        ts.isCallExpression(dec.expression)
+    return (dec: ts.Decorator) => {
+        if (!ts.isDecorator(dec)) return false;
+        return ts.isCallExpression(dec.expression)
             && dec.expression.expression
             && ts.isIdentifier(dec.expression.expression)
             && dec.expression.expression.text === name
-    );
+    };
+}
+
+export function getIndentationAtNode(node: ts.Node, sourceFile: ts.SourceFile): string {
+    const text = node.getFullText(sourceFile).split('\n')
+        .map(ln => {
+            const text = /^(\s+)\S/g.exec(ln);
+            return text ? text[1] : false;
+        })
+        .filter(x => x);
+    return text[0] as string;
+}
+
+export function getFirstNonDecoratorToken(node: ts.Node): ts.Node|false {
+    
+    let token: boolean|ts.Node = false;
+    function isNonDecorator(node: ts.Node) {
+        if (!token) token = !ts.isDecorator(node) && node;
+    }
+    node.forEachChild(isNonDecorator);
+    return token;
 }
 
 // TODO Actual Implementation
@@ -47,3 +68,53 @@ export function getDecoratorArgs<T>(dec: ts.Decorator): T|null {
     return args ? args as any: null;
 }
 
+export function followsOrder(actual: string[], expected: string[]): boolean {
+    expected = expected.filter(x => actual.includes(x));
+    return actual.map((item, i) => (expected[i] === item)).every(x => x);
+}
+
+export function firstGroupOutOfOrder(actual: string[], expected: string[]): false|string {
+    expected = expected.filter(x => actual.includes(x));
+    const map = actual.map((item, i) => (expected[i] === item));
+
+    return map.every(x => x) ? false : actual[map.findIndex((x) => x === false)];
+}
+
+export function count(arr: string[], key: string): number {
+    return arr.filter(x => x === key).length;
+}
+
+export function checkGroupings(test: string[]): string[] {
+
+    const ungrouped: string[] = [];
+    
+    // Loop through and save any items that occur more than once
+    let counts: { [key: string]: number } = {};
+    test.forEach((value) => {
+        if (counts[value] !== undefined) return;
+        const num = count(test, value);
+        if (num > 1) counts[value] = num;
+    })
+    const multiples = Object.keys(counts);
+
+    // Save original value and index
+    // Then get all the items that occur more than once
+    const map = test
+        .map((value, index) => ({ value, index }))
+        .filter(x => multiples.includes(x.value))
+    
+    // For each unique key, check all of the items of that key
+    // and determine if they are in sequential order
+    multiples.forEach((key) => {
+        const sequential = map
+            .filter(x => x.value === key)
+            .every((curr, i, arr) => {
+                const next = arr[i + 1];
+                if (!next) return true;
+                return (curr.index === next.index - 1);
+            });
+        if (!sequential) ungrouped.push(key);
+    })
+    
+    return ungrouped;
+}

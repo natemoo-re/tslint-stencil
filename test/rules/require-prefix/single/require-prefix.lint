@@ -1,0 +1,21 @@
+import { Component } from '@stencil/core';
+
+@Component({
+    tag: 'ion-component'
+})
+export class Component { }
+
+@Component({
+    tag: 'ionic-component'
+         ~~~~~~~~~~~~~~~~~ [failure % ('ionic')]
+})
+export class Component { }
+
+@Component({
+    tag: 'my-component'
+         ~~~~~~~~~~~~~~ [failure % ('my')]
+})
+export class Component { }
+
+
+[failure]: Invalid tag prefix "%s". Tag must begin with "ion"

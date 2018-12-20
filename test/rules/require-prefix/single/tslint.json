@@ -1,0 +1,6 @@
+{
+    "rulesDirectory": ["../../../../rules"],
+    "rules": {
+        "require-prefix": [true, "ion"]
+    }
+}

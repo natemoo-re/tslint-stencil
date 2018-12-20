@@ -1,0 +1,89 @@
+import { Component, Prop } from '@stencil/core';
+
+@Component({
+    tag: 'my-component'
+})
+export class Component {
+    someFunction() { }
+}
+
+@Component({
+    tag: 'my-component'
+})
+export class Component {
+    componentWillLoad() { }
+}
+
+@Component({
+    tag: 'my-component'
+})
+export class Component {
+  componentWillLoad() { }
+  componentDidLoad() { }
+  componentWillUpdate() { }
+  componentDidUpdate() { }
+  componentDidUnload() { }
+}
+
+@Component({
+    tag: 'my-component'
+})
+export class Component {
+    @Prop() propA: string;
+    @Prop() propB: string;
+    @Prop() propC: string;
+
+    componentDidUnload() { }
+    ~~~~~~~~~~~~~~~~~~ [failure]
+    componentDidUpdate() { }
+    ~~~~~~~~~~~~~~~~~~ [failure]
+    componentWillUpdate() { }
+    ~~~~~~~~~~~~~~~~~~~ [failure]
+    componentDidLoad() { }
+    ~~~~~~~~~~~~~~~~ [failure]
+    componentWillLoad() { }
+    ~~~~~~~~~~~~~~~~~ [failure]
+
+    hostData() { }
+    render() { }
+}
+
+@Component({
+    tag: 'my-component'
+})
+export class Component {
+  componentDidUnload() { }
+  ~~~~~~~~~~~~~~~~~~ [failure]
+  componentDidLoad() { }
+  ~~~~~~~~~~~~~~~~ [failure]
+}
+
+@Component({
+    tag: 'my-component'
+})
+export class Component {
+    @Prop() propA: string;
+    @Prop() propB: string;
+    @Prop() propC: string;
+
+    componentWillLoad() { }
+    componentDidLoad() { }
+    componentWillUpdate() { }
+    componentDidUnload() { }
+    ~~~~~~~~~~~~~~~~~~ [failure]
+    componentDidUpdate() { }
+    ~~~~~~~~~~~~~~~~~~ [failure]
+
+    render() { }
+}
+
+@Component({
+    tag: 'my-component'
+})
+export class Component {
+  componentWillLoad() { }
+  componentWillUpdate() { }
+  componentDidUnload() { }
+}
+
+[failure]: Component lifecycle methods should be ordered according to their call order

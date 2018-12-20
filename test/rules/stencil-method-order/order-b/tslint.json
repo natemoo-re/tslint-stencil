@@ -1,0 +1,11 @@
+{
+    "rulesDirectory": ["../../../../rules"],
+    "rules": {
+        "stencil-method-order": [true, {
+            "order": [
+                "render",
+                "hostData"
+            ]
+        }]
+    }
+}

@@ -1,0 +1,33 @@
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+
+  num: number;
+  someText = 'default';
+  
+  @Element() el: HTMLElement;
+
+  @Prop() content: string;
+  ~~~~~~~~~~~~~~~~~~~~~~~~
+  @State() isOpen = false;
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+  @Prop() enabled: boolean;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+
+  componentWillLoad() {}
+  componentDidLoad() {}
+
+  @Method()
+  open() { }
+
+  render() {
+    return (
+      <div class='menu-inner page-inner'>
+        <slot></slot>
+      </div>
+    );
+  }
+}
+
+[failure]: Component members of the same type should be grouped together

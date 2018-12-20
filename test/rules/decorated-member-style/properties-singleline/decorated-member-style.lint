@@ -1,0 +1,18 @@
+import { Component, Prop } from '@stencil/core';
+
+@Component({
+    tag: 'my-component'
+})
+export class ElementA {
+    
+    ownProp = false;
+
+    @Prop() mySingleProp: string;
+
+    @Prop()
+    ~~~~~~~
+    myMultiProp: string;
+~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+}
+
+[failure]: Component property decorators should be inlined

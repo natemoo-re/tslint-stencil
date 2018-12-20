@@ -4,6 +4,7 @@ thumbs.db
 scripts/
 src/
 test/
+docs/
 .editorconfig
 .gitignore
 .travis.yml

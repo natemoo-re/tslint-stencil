@@ -1,0 +1,55 @@
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @Prop() myPropA: string;
+  @Watch('myPropA') myPropAChanged() { }
+  
+  @Prop() myPropB: string;
+  @Watch('myPropB') myPropAChanged() { }
+  
+  @Prop() myPropC: string;
+  @Watch('myPropC') myPropAChanged() { }
+}
+
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @Prop() myPropA: string;
+  @Prop() myPropB: string;
+  @Prop() myPropC: string;
+  
+  @Watch('myPropA') myPropAChanged() { }
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+  @Watch('myPropB') myPropBChanged() { }
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+  @Watch('myPropC') myPropCChanged() { }
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+}
+
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @State() myState: string;
+  @Watch('myState') myStateChanged() {}
+
+  @Prop() myProp: string;
+  @Watch('myProp') myPropChanged() {}
+}
+
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @State() myState: string;
+  @Prop() myProp: string;
+
+  @Watch('myState') myStateChanged() {}
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+  @Watch('myProp') myPropChanged() {}
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+}
+
+[failure]: Watch methods should immediately follow the declaration of the Prop/State they watch

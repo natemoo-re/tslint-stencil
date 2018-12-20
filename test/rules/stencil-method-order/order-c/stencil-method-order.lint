@@ -1,0 +1,13 @@
+import { Component, Prop } from '@stencil/core';
+
+@Component({
+    tag: 'my-component'
+})
+export class Component {
+    render() {}
+    ~~~~~~~~~~~ [failure]
+    hostData() {}
+    ~~~~~~~~~~~~~ [failure]
+}
+
+[failure]: Stencil methods should be in the following order: "hostData, render"

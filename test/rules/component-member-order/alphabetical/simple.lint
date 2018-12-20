@@ -1,0 +1,22 @@
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @Prop() propA: string;
+  @Prop() propB: string;
+  @Prop() propC: string;
+}
+
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @Prop() propA: string;
+  ~~~~~~~~~~~~~~~~~~~~~~
+  @Prop() propC: string;
+~~~~~~~~~~~~~~~~~~~~~~~~
+  @Prop() propB: string;
+~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+}
+
+[failure]: Component members of the same type should be alphabetized

@@ -1,0 +1,63 @@
+import { Component, Listen, Method } from '@stencil/core';
+
+@Component({
+    tag: 'my-component'
+})
+export class ElementA {
+    
+    localMethod() { 
+        return false;
+    }
+
+    @Listen('click') mySingleMethod(): void { };
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
+
+    @Listen('click') myMixedMethod(): void {
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    };
+~~~~~ [failure]
+    
+    @Method()
+    myMultiMethod(): string {
+        
+    };
+
+    @Listen('eventA')
+    @Listen('eventB')
+    myComposedHandler(): string {
+        
+    };
+
+    @Listen('eventA') 
+    ~~~~~~~~~~~~~~~~~
+    @Listen('eventB') myComposedHandler(): string {
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    };
+~~~~~ [failure]
+
+    @Listen('eventA') @Listen('eventB')
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    myComposedHandler(): string {
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    };
+~~~~~ [failure-composition]
+
+    @Listen('eventA')
+    ~~~~~~~~~~~~~~~~~
+    @Listen('eventB')
+~~~~~~~~~~~~~~~~~~~~~
+    @Listen('eventC') @Listen('eventD')
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    myComposedHandler(): string {
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    };
+~~~~~ [failure-composition]
+
+    @Listen('eventA') @Listen('eventB') @Listen('eventC') myComposedHandler(): string {
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    };
+~~~~~ [failure-composition]
+}
+
+[failure]: Component method decorators should be multiline
+[failure-composition]: Component method decorators should each be on their own lines
