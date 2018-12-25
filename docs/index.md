@@ -1,7 +1,3 @@
-
-# tslint-stencil
-Adds stylistic [tslint](https://github.com/palantir/tslint) rules for [Stencil](https://github.com/ionic-team/stencil) projects
-
 ## Getting started
 Add the following line to your `tslint.json` file to enable the default ruleset (which follows the [Stencil Style Guide](https://stenciljs.com/docs/style-guide))
 
@@ -23,25 +19,25 @@ Alternatively, you can extend the bare package and enable each [rule](#rules) on
 
 ## Rules
 
-### [`ban-prefix`](./ban-prefix.md)
+### [ban-prefix](./ban-prefix.md)
 Ensures that a Component's `tag` does not use any of the given prefixes.
 
-### [`component-member-order`](./component-member-order.md)
+### [component-member-order](./component-member-order.md)
 Ensures that Component members are ordered consistently
 
-### [`components-per-file`](./components-per-file.md)
+### [components-per-file](./components-per-file.md)
 Allows a maximum number of Components to be placed in a single file
 
-### [`decorated-member-style`](./decorated-member-style.md)
+### [decorated-member-style](./decorated-member-style.md)
 Requires decorated class members to follow a consistent style (singleline or multiline)
 
-### [`lifecycle-order`](./lifecycle-order.md)
+### [lifecycle-order](./lifecycle-order.md)
 Ensures that Component lifecycle methods are ordered consistently
 
-### [`require-prefix`](./require-prefix.md)
+### [require-prefix](./require-prefix.md)
 Ensures that a Component's `tag` begins with the given prefix(es).
 
-### [`stencil-method-order`](./stencil-method-order.md)
+### [stencil-method-order](./stencil-method-order.md)
 Ensures that Stencil methods (`hostData`, `render`) are ordered consistently
 
 ## Contributing
