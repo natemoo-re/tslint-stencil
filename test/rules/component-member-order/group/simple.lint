@@ -5,7 +5,7 @@ export class Component {
 
   num: number;
   someText = 'default';
-  
+
   @Element() el: HTMLElement;
 
   @Prop() content: string;
@@ -30,4 +30,4 @@ export class Component {
   }
 }
 
-[failure]: Component members of the same type should be grouped together
+[failure]: @Prop properties without watcher and @State properties without watcher should not be mixed

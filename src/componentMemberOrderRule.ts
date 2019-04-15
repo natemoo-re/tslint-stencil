@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 import * as Lint from "tslint";
 import { isComponentClass, getDeclarationParameters, hasDecoratorNamed, followsOrder, checkGroupings, firstGroupOutOfOrder, getIndentationAtNode } from "./shared/utils";
-import { LIFECYCLE_METHODS, STENCIL_METHODS } from './shared/constants';
+import { LIFECYCLE_METHODS, STENCIL_METHODS, VERBOSE_COMPONENT_MEMBERS } from './shared/constants';
 
 type ComponentMember =
     "element"
@@ -126,7 +126,7 @@ export class Rule extends Lint.Rules.AbstractRule {
         typescriptOnly: true
     }
     public static FAILURE_STRING_ORDER = `Component member "%a" should be placed %b`;
-    public static FAILURE_STRING_GROUP = `Component members of the same type should be grouped together`;
+    public static FAILURE_STRING_GROUP = `%a and %b should not be mixed`;
     public static FAILURE_STRING_ALPHABETICAL = `Component members of the same type should be alphabetized`;
     public static FAILURE_STRING_WATCH = `Watch methods should immediately follow the declaration of the Prop/State they watch`;
 
@@ -164,7 +164,9 @@ function walk(ctx: Lint.WalkContext<Options>) {
             }
         }
 
-        
+        const collectedKeys = collected.map(x => x.key);
+        const collectedKeysSet = new Set(collectedKeys);
+
         if (collected.length) {
             if (order) {
                 // First, check that all items of the same type are grouped together
@@ -175,14 +177,21 @@ function walk(ctx: Lint.WalkContext<Options>) {
                     if (watchFollowsProp && ungrouped.includes('prop') && ungrouped.includes('watch')) {
                         groups = ungrouped.filter(x => x !== 'prop' && x !== 'watch')
                     }
-    
+
                     if (groups.length) {
                         const failures = [...collected.filter(x => groups.includes(x.key))].map(x => x.node);
-                        return addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_GROUP);
+                        const firstGroupMember = groups[0];
+                        const misplacedGroupMemberIndex = [...collectedKeysSet].findIndex(x => x === firstGroupMember) + 1;
+                        const misplacedGroupMemberKey = [...collectedKeysSet][misplacedGroupMemberIndex];
+
+
+                        return addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_GROUP
+                        .replace('%a', VERBOSE_COMPONENT_MEMBERS[groups[0]] || groups[0])
+                        .replace('%b', VERBOSE_COMPONENT_MEMBERS[groups[1] || misplacedGroupMemberKey]));
                     }
                     return;
                 }
-    
+
                 // Next, add failures to the nodes that are out of order
                 const actual = Array.from(new Set(collected.map((value) => value.key))).filter(x => order.includes(x));
                 const follows = followsOrder(actual, order);
@@ -230,7 +239,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
                 let actual: ComponentMember[] = [];
                 if (order) actual = Array.from(new Set(collected.map((value) => value.key))).filter(x => order.includes(x));
                 if (!order) actual = Array.from(new Set(collected.map((value) => value.key)));
-                
+
                 const groups = actual.map(key => {
                     if (key === 'lifecycle' || key === 'stencil-method') { return { key, alphabetical: true } };
                     const group = collected.filter(x => x.key === key).map(x => x.name);
@@ -244,7 +253,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
                 })
                     .filter(x => !x.alphabetical)
                     .map(x => x.key);
-                
+
                 if (groups.length) {
                     const failures = [...collected.filter(x => groups.includes(x.key))];
                     const fix = createFixAlphabetical(failures, ctx.sourceFile);
@@ -252,7 +261,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
                 }
             }
         }
-        
+
 
         return node.forEachChild(cb);
     }
@@ -298,9 +307,9 @@ function addFailureToNodeGroup(ctx: Lint.WalkContext<any>, nodes: ts.Node[], fai
     } else {
         const start = nodes[0].getStart(ctx.sourceFile, true);
         const width = nodes[nodes.length - 1].getEnd() - start;
-        
+
         return ctx.addFailureAt(start, width, failure, fix);
-    }   
+    }
 }
 
 function createFixAlphabetical(collected: ComponentMetadata[], sourceFile: ts.SourceFile) {
@@ -309,7 +318,7 @@ function createFixAlphabetical(collected: ComponentMetadata[], sourceFile: ts.So
     const start = nodes[0].getStart(sourceFile, true);
     const end = nodes[nodes.length - 1].getEnd();
     const indent = getIndentationAtNode(nodes[0], sourceFile);
-    
+
     const sorted = [...collected]
         .sort((a, b) => {
             const nameA = a.name.toUpperCase();
