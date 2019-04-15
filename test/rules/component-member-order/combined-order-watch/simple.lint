@@ -2,65 +2,9 @@
   tag: 'my-component'
 })
 export class Component {
-  @Prop() myPropA: string;
-  @Watch('myPropA') myPropAChanged() { }
-
-  @Prop() myPropB: string;
-  @Watch('myPropB') myPropBChanged() { }
-
-  @Prop() myPropC: string;
-  @Watch('myPropC') myPropCChanged() { }
-}
-
-@Component({
-  tag: 'my-component'
-})
-export class Component {
-  @Prop() myPropA: string;
-  @Prop() myPropB: string;
-  @Prop() myPropC: string;
-
-  @Watch('myPropA') myPropAChanged() { }
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
-  @Watch('myPropB') myPropBChanged() { }
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
-  @Watch('myPropC') myPropCChanged() { }
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
-}
-
-@Component({
-  tag: 'my-component'
-})
-export class Component {
-  @State() myState: string;
-  @Watch('myState') myStateChanged() {}
-
-  @Prop() myProp: string;
-  @Watch('myProp') myPropChanged() {}
-}
-
-@Component({
-  tag: 'my-component'
-})
-export class Component {
-  @State() myState: string;
-  @Prop() myProp: string;
-
-  @Watch('myState') myStateChanged() {}
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
-  @Watch('myProp') myPropChanged() {}
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure]
-}
-
-@Component({
-  tag: 'my-component'
-})
-export class Component {
   @Prop() myProp: string;
   @Watch('myProp') myPropChanged() {}
 
   @Prop() myProp2: string;
   @Watch('myProp2') myPropChangedAlso() {}
 }
-
-[failure]: Watch methods should immediately follow the declaration of the Prop/State they watch
