@@ -212,8 +212,8 @@ function walk(ctx: Lint.WalkContext<Options>) {
 
 
                         return addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_GROUP
-                        .replace('%a', VERBOSE_COMPONENT_MEMBERS[groups[0]] || groups[0])
-                        .replace('%b', VERBOSE_COMPONENT_MEMBERS[groups[1] || misplacedGroupMemberKey]));
+                        .replace(/\%a/g, VERBOSE_COMPONENT_MEMBERS[groups[0]] || groups[0])
+                        .replace(/\%b/g, VERBOSE_COMPONENT_MEMBERS[groups[1] || misplacedGroupMemberKey]));
                     }
                     return;
                 }
@@ -228,7 +228,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
                     const next = existing[existing.indexOf(group) + 1];
                     const failures = collected.filter(x => x.key === group).map(x => x.node);
 
-                    addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_ORDER.replace('%a', group).replace('%b', () => {
+                    addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_ORDER.replace(/\%a/g, group).replace(/\%b/g, () => {
                         if (next && prev) {
                             return `between "${prev}" and "${next}"`
                         } else if (next) {
