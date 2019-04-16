@@ -17,7 +17,7 @@
     "build": "rm -rf rules && npm run compile && npm run docs",
     "test": "tslint --test test/rules/**/*",
     "verify": "npm run build && npm run test",
-    "prepare": "node scripts/prepare",
+    "postversion": "node scripts/prepare",
     "commit": "node scripts/commit",
     "predocs": "rm -rf docs",
     "docs": "node scripts/docs"
