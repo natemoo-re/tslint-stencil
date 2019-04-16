@@ -1,15 +1,12 @@
 {
-    "rulesDirectory": ["../../../../rules"],
-    "rules": {
-        "component-member-order": [
-            true,
-            {
-                "order": [
-                    "prop",
-                    "event"
-                ],
-                "alphabetical": true
-            }
-        ]
-    }
+  "rulesDirectory": ["../../../../rules"],
+  "rules": {
+    "component-member-order": [
+      true,
+      {
+        "order": ["prop", "event"],
+        "alphabetical": true
+      }
+    ]
+  }
 }

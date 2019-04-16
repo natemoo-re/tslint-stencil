@@ -1,6 +1,6 @@
 {
-    "rulesDirectory": ["../../../../rules"],
-    "rules": {
-        "ban-prefix": [true, "st", "stnl", "stencil"]
-    }
+  "rulesDirectory": ["../../../../rules"],
+  "rules": {
+    "ban-prefix": [true, "st", "stnl", "stencil"]
+  }
 }

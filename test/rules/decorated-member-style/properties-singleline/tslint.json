@@ -1,11 +1,11 @@
 {
-    "rulesDirectory": ["../../../../rules"],
-    "rules": {
-        "decorated-member-style": [
-            true,
-            {
-                "properties": "singleline"
-            }
-        ]
-    }
+  "rulesDirectory": ["../../../../rules"],
+  "rules": {
+    "decorated-member-style": [
+      true,
+      {
+        "properties": "singleline"
+      }
+    ]
+  }
 }

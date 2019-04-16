@@ -1,4 +1,3 @@
-
 # `component-member-order`
 
 Ensures that Component members are ordered consistently
@@ -22,14 +21,13 @@ One argument, which is an object, must be provided. It should contain an `"order
 - `watched-prop`, which refers to `@Prop()` decorated properties that have a `@Watch()` method
 - `watched-state`, which refers to `@State()` decorated properties that have a `@Watch()` method
 
-        
-
 ### Config examples
+
 ```ts
-{ 
+{
     "component-member-order": [
-        true, 
-        { 
+        true,
+        {
             "order": [
                 "own-prop",
                 "element",
@@ -50,11 +48,12 @@ One argument, which is an object, must be provided. It should contain an `"order
     ]
 }
 ```
+
 ```ts
-{ 
+{
     "component-member-order": [
-        true, 
-        { 
+        true,
+        {
             "order": false,
             "watch-follows-prop": true
         }
@@ -63,6 +62,7 @@ One argument, which is an object, must be provided. It should contain an `"order
 ```
 
 ## Schema
+
 ```ts
 {
   "type": "object",

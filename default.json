@@ -1,46 +1,43 @@
 {
-    "extends": "./tslint-stencil.json",
-    "rules": {
-        "ban-prefix": [true, "stencil", "st", "stnl"],
-        "component-member-order": [
-            true,
-            {
-                "order": [
-                    "own-prop",
-                    "element",
-                    "state",
-                    "watched-state",
-                    "internal-prop",
-                    "prop",
-                    "watched-prop",
-                    "event",
-                    "lifecycle",
-                    "listen",
-                    "method",
-                    "own-method",
-                    "stencil-method"
-                ],
-                "watch-follows-prop": true,
-                "alphabetical": true
-            }
+  "extends": "./tslint-stencil.json",
+  "rules": {
+    "ban-prefix": [true, "stencil", "st", "stnl"],
+    "component-member-order": [
+      true,
+      {
+        "order": [
+          "own-prop",
+          "element",
+          "state",
+          "watched-state",
+          "internal-prop",
+          "prop",
+          "watched-prop",
+          "event",
+          "lifecycle",
+          "listen",
+          "method",
+          "own-method",
+          "stencil-method"
         ],
-        "components-per-file": [true, 1],
-        "decorated-member-style": [
-            true,
-            {
-                "properties": "singleline",
-                "methods": "multiline"
-            }
-        ],
-        "lifecycle-order": [true, "call-order"],
-        "stencil-method-order": [
-            true,
-            {
-                "order": [
-                    "hostData",
-                    "render"
-                ]
-            }
-        ]
-    }
+        "watch-follows-prop": true,
+        "alphabetical": true
+      }
+    ],
+    "components-per-file": [true, 1],
+    "decorated-member-style": [
+      true,
+      {
+        "properties": "singleline",
+        "methods": "multiline"
+      }
+    ],
+    "lifecycle-order": [true, "call-order"],
+    "stencil-method-order": [
+      true,
+      {
+        "order": ["hostData", "render"]
+      }
+    ]
+  }
 }

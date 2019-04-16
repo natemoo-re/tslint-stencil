@@ -1,6 +1,6 @@
 {
-    "rulesDirectory": ["../../../../rules"],
-    "rules": {
-        "components-per-file": [true, 3]
-    }
+  "rulesDirectory": ["../../../../rules"],
+  "rules": {
+    "components-per-file": [true, 3]
+  }
 }

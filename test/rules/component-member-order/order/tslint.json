@@ -1,23 +1,23 @@
 {
-    "rulesDirectory": ["../../../../rules"],
-    "rules": {
-        "component-member-order": [
-            true,
-            {
-                "order": [
-                    "own-prop",
-                    "element",
-                    "state",
-                    "internal-prop",
-                    "prop",
-                    "event",
-                    "lifecycle",
-                    "listen",
-                    "method",
-                    "own-method",
-                    "stencil-method"
-                ]
-            }
+  "rulesDirectory": ["../../../../rules"],
+  "rules": {
+    "component-member-order": [
+      true,
+      {
+        "order": [
+          "own-prop",
+          "element",
+          "state",
+          "internal-prop",
+          "prop",
+          "event",
+          "lifecycle",
+          "listen",
+          "method",
+          "own-method",
+          "stencil-method"
         ]
-    }
+      }
+    ]
+  }
 }
