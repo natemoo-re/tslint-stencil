@@ -1,0 +1,10 @@
+@Component({
+  tag: 'my-component'
+})
+export class Component {
+  @Prop() myProp: string;
+  @Watch('myProp') myPropChanged() {}
+
+  @Prop() myProp2: string;
+  @Watch('myProp2') myPropChangedAlso() {}
+}
