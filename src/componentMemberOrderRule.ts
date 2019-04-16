@@ -10,7 +10,7 @@ import {
     getIndentationAtNode,
     getDecoratorArgs
 } from "./shared/utils";
-import { LIFECYCLE_METHODS, STENCIL_METHODS } from './shared/constants';
+import { LIFECYCLE_METHODS, STENCIL_METHODS, VERBOSE_COMPONENT_MEMBERS } from './shared/constants';
 
 type ComponentMember =
     "element"
@@ -137,7 +137,7 @@ export class Rule extends Lint.Rules.AbstractRule {
         typescriptOnly: true
     }
     public static FAILURE_STRING_ORDER = `Component member "%a" should be placed %b`;
-    public static FAILURE_STRING_GROUP = `Component members of the same type should be grouped together`;
+    public static FAILURE_STRING_GROUP = `%a and %b should not be mixed`;
     public static FAILURE_STRING_ALPHABETICAL = `Component members of the same type should be alphabetized`;
     public static FAILURE_STRING_WATCH = `Watch methods should immediately follow the declaration of the Prop/State they watch`;
 
@@ -183,6 +183,8 @@ function walk(ctx: Lint.WalkContext<Options>) {
             });
         }
 
+        const collectedKeys = collected.map(x => x.key);
+        const collectedKeysSet = new Set(collectedKeys);
 
         if (collected.length) {
             if (order) {
@@ -203,8 +205,15 @@ function walk(ctx: Lint.WalkContext<Options>) {
                     }
 
                     if (groups.length) {
-                        const failures = groups.map(componentMemb => componentMemb.node);
-                        return addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_GROUP);
+                        const failures = [...collected.filter(x => groups.includes(x.key))].map(x => x.node);
+                        const firstGroupMember = groups[0];
+                        const misplacedGroupMemberIndex = [...collectedKeysSet].findIndex(x => x === firstGroupMember) + 1;
+                        const misplacedGroupMemberKey = [...collectedKeysSet][misplacedGroupMemberIndex];
+
+
+                        return addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_GROUP
+                        .replace(/\%a/g, VERBOSE_COMPONENT_MEMBERS[groups[0]] || groups[0])
+                        .replace(/\%b/g, VERBOSE_COMPONENT_MEMBERS[groups[1] || misplacedGroupMemberKey]));
                     }
                     return;
                 }
@@ -219,7 +228,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
                     const next = existing[existing.indexOf(group) + 1];
                     const failures = collected.filter(x => x.key === group).map(x => x.node);
 
-                    addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_ORDER.replace('%a', group).replace('%b', () => {
+                    addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_ORDER.replace(/\%a/g, group).replace(/\%b/g, () => {
                         if (next && prev) {
                             return `between "${prev}" and "${next}"`
                         } else if (next) {
