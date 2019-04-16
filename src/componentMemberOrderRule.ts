@@ -167,7 +167,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
   } = ctx.options;
 
   function cb(node: ts.Node): void {
-    let collected: ComponentMetadata[] = [];
+    let collected: any[] = [];
 
     if (ts.isClassDeclaration(node) && isComponentClass(node)) {
       node.members.forEach((member: ts.ClassElement) => {
@@ -207,7 +207,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
         // First, check that all items of the same type are grouped together
         const ungrouped = checkGroupings(collected);
         if (ungrouped.length) {
-          let groups = ungrouped;
+          let groups: ComponentMetadata[] = ungrouped;
 
           // filter out all watchers and watched props/state
           if (watchFollowsProp) {
@@ -222,25 +222,26 @@ function walk(ctx: Lint.WalkContext<Options>) {
 
           if (groups.length) {
             const failures = [
-              ...collected.filter(x => groups.includes(x.key))
+              ...collected.filter(
+                x => groups.findIndex(g => g.key === x.key) > -1
+              )
             ].map(x => x.node);
+
             const firstGroupMember = groups[0];
             const misplacedGroupMemberIndex =
-              [...collectedKeysSet].findIndex(x => x === firstGroupMember) + 1;
-            const misplacedGroupMemberKey = [...collectedKeysSet][
+              [...collectedKeysSet].findIndex(x => x === firstGroupMember.key) +
+              1;
+            const misplacedGroupMemberKey: string = [...collectedKeysSet][
               misplacedGroupMemberIndex
             ];
+
+            const a = VERBOSE_COMPONENT_MEMBERS[firstGroupMember.key];
+            const b = VERBOSE_COMPONENT_MEMBERS[misplacedGroupMemberKey];
 
             return addFailureToNodeGroup(
               ctx,
               failures,
-              Rule.FAILURE_STRING_GROUP.replace(
-                /\%a/g,
-                VERBOSE_COMPONENT_MEMBERS[groups[0]] || groups[0]
-              ).replace(
-                /\%b/g,
-                VERBOSE_COMPONENT_MEMBERS[groups[1] || misplacedGroupMemberKey]
-              )
+              Rule.FAILURE_STRING_GROUP.replace(/\%a/g, a).replace(/\%b/g, b)
             );
           }
           return;

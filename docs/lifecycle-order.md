@@ -20,11 +20,11 @@ If no argument is provided, this rule will enforce the default functionality (wh
 ### Config examples
 
 ```ts
-{ "lifecycle-order": [true, "call-order"] }
+{ "lifecycle-sort": [true, "call-order"] }
 ```
 
 ```ts
-{ "lifecycle-order": [true, "alphabetical"] }
+{ "lifecycle-sort": [true, "alphabetical"] }
 ```
 
 ## Schema
@@ -51,7 +51,7 @@ If no argument is provided, this rule will enforce the default functionality (wh
   **⚙️ Config**
 
   ```ts
-  "rules": { "lifecycle-order": [true, "call-order"] }
+  "rules": { "lifecycle-sort": [true, "call-order"] }
   ```
 
   **✅ Pass**
@@ -67,7 +67,7 @@ If no argument is provided, this rule will enforce the default functionality (wh
 - Order lifecycle methods alphabetically (`alphabetical`)
   **⚙️ Config**
   ```ts
-  "rules": { "lifecycle-order": [true, "alphabetical"] }
+  "rules": { "lifecycle-sort": [true, "alphabetical"] }
   ```
   **✅ Pass**
   ```ts

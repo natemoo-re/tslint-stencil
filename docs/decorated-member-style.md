@@ -113,13 +113,10 @@ A member is considered “multiline” if its declaration is on a line after the
   ```
 - Require all decorated component methods to be multiline.
   **⚙️ Config**
-
   ```ts
   "rules": { "decorated-member-style": [true, { "methods": "multiline" }] }
   ```
-
   **✅ Pass**
-
   ```ts
   @Listen('click')
   handleClick() {}
@@ -128,9 +125,7 @@ A member is considered “multiline” if its declaration is on a line after the
   @Listen('tap')
   handleClickOrTap() {}
   ```
-
   **🚫 Fail**
-
   ```ts
   @Listen('click') handleClick() {}
   ```
