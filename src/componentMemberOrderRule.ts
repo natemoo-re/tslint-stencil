@@ -399,7 +399,6 @@ function addFailureToNodeGroup(
   failure: string,
   fix?: Lint.Replacement | Lint.Replacement[]
 ) {
-  if (!nodes.length) return;
   if (nodes.length === 1) {
     ctx.addFailureAtNode(nodes[0], failure, fix);
   } else {
