@@ -1,6 +1,6 @@
 {
   "name": "tslint-stencil",
-  "version": "1.0.6",
+  "version": "1.0.0",
   "description": "Adds stylistic rules to tslint for Stencil projects",
   "keywords": [
     "tslint",
@@ -17,7 +17,6 @@
     "build": "rm -rf rules && npm run compile && npm run docs",
     "test": "tslint --test test/rules/**/*",
     "verify": "npm run build && npm run test",
-    "postversion": "node scripts/prepare",
     "commit": "node scripts/commit",
     "predocs": "rm -rf docs",
     "docs": "node scripts/docs"
