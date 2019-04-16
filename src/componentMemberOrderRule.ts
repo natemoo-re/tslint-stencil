@@ -1,7 +1,16 @@
 import * as ts from "typescript";
 import * as Lint from "tslint";
-import { isComponentClass, getDeclarationParameters, hasDecoratorNamed, followsOrder, checkGroupings, firstGroupOutOfOrder, getIndentationAtNode } from "./shared/utils";
-import { LIFECYCLE_METHODS, STENCIL_METHODS } from './shared/constants';
+import {
+    isComponentClass,
+    getDeclarationParameters,
+    hasDecoratorNamed,
+    followsOrder,
+    checkGroupings,
+    firstGroupOutOfOrder,
+    getIndentationAtNode,
+    getDecoratorArgs
+} from "./shared/utils";
+import { LIFECYCLE_METHODS, STENCIL_METHODS, VERBOSE_COMPONENT_MEMBERS } from './shared/constants';
 
 type ComponentMember =
     "element"
@@ -18,10 +27,12 @@ type ComponentMember =
     | "watch"
     | "watched-prop"
     | "watched-state";
-interface ComponentMetadata {
+export interface ComponentMetadata {
     name: string;
     key: ComponentMember;
-    node: ts.Node
+    node: ts.Node;
+    watches?: string | false;
+    watchedBy?: ComponentMetadata;
 }
 type Options = {
     "order": ComponentMember[],
@@ -126,7 +137,7 @@ export class Rule extends Lint.Rules.AbstractRule {
         typescriptOnly: true
     }
     public static FAILURE_STRING_ORDER = `Component member "%a" should be placed %b`;
-    public static FAILURE_STRING_GROUP = `Component members of the same type should be grouped together`;
+    public static FAILURE_STRING_GROUP = `%a and %b should not be mixed`;
     public static FAILURE_STRING_ALPHABETICAL = `Component members of the same type should be alphabetized`;
     public static FAILURE_STRING_WATCH = `Watch methods should immediately follow the declaration of the Prop/State they watch`;
 
@@ -148,37 +159,61 @@ function walk(ctx: Lint.WalkContext<Options>) {
         let collected: ComponentMetadata[] = [];
 
         if (ts.isClassDeclaration(node) && isComponentClass(node)) {
-            node.members.forEach((member) => {
+            node.members.forEach((member: ts.ClassElement) => {
                 const name = member.name && ts.isIdentifier(member.name) && member.name.text;
                 const key = getOrderKey(member);
-                if (name && key) collected.push({ name, key, node: member });
-            })
+                const watches = determineWatchedProp(member, key);
+
+                if (name && key) {
+                    collected.push({ name, key, watches, node: member });
+                }
+            });
 
             const watchable = ['prop', 'state'];
-            const watched = collected.filter(x => x.key === 'watch').map(x => getDeclarationParameters<string>(x.node.decorators!.find(hasDecoratorNamed('Watch'))!)[0]);
-            if (watched.length) {
-                collected = collected.map((value) => {
-                    if (watchable.includes(value.key) && watched.includes(value.name)) return { ...value, key: `watched-${value.key}` }
-                    return value
-                }) as any;
-            }
+
+            const watchers = collected.filter(x => x.watches);
+            const watchedNames = watchers.map((watcher) => watcher.watches);
+            collected.forEach((componentMember) => {
+                const { key, name } = componentMember;
+
+                if (watchedNames.includes(componentMember.name)) {
+                    componentMember.watchedBy = watchers.find((watcher) => watcher.watches === name);
+                    componentMember.key = watchable.includes(key) ? `watched-${key}` as ComponentMember : key;
+                }
+            });
         }
 
+        const collectedKeys = collected.map(x => x.key);
+        const collectedKeysSet = new Set(collectedKeys);
 
         if (collected.length) {
             if (order) {
                 // First, check that all items of the same type are grouped together
-                const ungrouped = checkGroupings(collected.map(x => x.key));
+                const ungrouped = checkGroupings(collected);
                 if (ungrouped.length) {
                     let groups = ungrouped;
-                    // If watchFollowsProp is enabled, let's ignore "prop" and "watch" groupings
-                    if (watchFollowsProp && ungrouped.includes('prop') && ungrouped.includes('watch')) {
-                        groups = ungrouped.filter(x => x !== 'prop' && x !== 'watch')
+
+                    // filter out all watchers and watched props/state
+                    if (watchFollowsProp) {
+                        groups = ungrouped.reduce((acc, componentMemb) => {
+                            if (componentMemb.watches || componentMemb.watchedBy) {
+                                return acc;
+                            }
+
+                            return [...acc, componentMemb];
+                        }, [])
                     }
 
                     if (groups.length) {
                         const failures = [...collected.filter(x => groups.includes(x.key))].map(x => x.node);
-                        return addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_GROUP);
+                        const firstGroupMember = groups[0];
+                        const misplacedGroupMemberIndex = [...collectedKeysSet].findIndex(x => x === firstGroupMember) + 1;
+                        const misplacedGroupMemberKey = [...collectedKeysSet][misplacedGroupMemberIndex];
+
+
+                        return addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_GROUP
+                        .replace(/\%a/g, VERBOSE_COMPONENT_MEMBERS[groups[0]] || groups[0])
+                        .replace(/\%b/g, VERBOSE_COMPONENT_MEMBERS[groups[1] || misplacedGroupMemberKey]));
                     }
                     return;
                 }
@@ -193,7 +228,7 @@ function walk(ctx: Lint.WalkContext<Options>) {
                     const next = existing[existing.indexOf(group) + 1];
                     const failures = collected.filter(x => x.key === group).map(x => x.node);
 
-                    addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_ORDER.replace('%a', group).replace('%b', () => {
+                    addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_ORDER.replace(/\%a/g, group).replace(/\%b/g, () => {
                         if (next && prev) {
                             return `between "${prev}" and "${next}"`
                         }
@@ -324,4 +359,11 @@ function createFixAlphabetical(collected: ComponentMetadata[], sourceFile: ts.So
     fix.push(Lint.Replacement.replaceFromTo(start, end, sorted.join('\n')));
 
     return fix;
+}
+
+function determineWatchedProp(member: ts.ClassElement, key: ComponentMember|false): string {
+    if (!key || key !== 'watch' || !member.decorators || !member.decorators[0]) {
+        return '';
+    }
+    return getDecoratorArgs<string>(member.decorators[0]) || '';
 }

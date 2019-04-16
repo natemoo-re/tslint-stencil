@@ -24,7 +24,7 @@ export class Component {
 export class Component {
   @Event() myEvent: EventEmitter<void>;
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [failure-order]
-  
+
   @Prop() myPropA: string;
   ~~~~~~~~~~~~~~~~~~~~~~~~
   @Prop() myPropC: string;
@@ -48,5 +48,5 @@ export class Component {
 }
 
 [failure-order]: Component member "event" should be placed after "prop"
-[failure-group]: Component members of the same type should be grouped together
+[failure-group]: @Prop properties without watcher and @Event properties should not be mixed
 [failure-alphabetical]: Component members of the same type should be alphabetized
