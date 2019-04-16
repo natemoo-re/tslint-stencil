@@ -231,11 +231,9 @@ function walk(ctx: Lint.WalkContext<Options>) {
                     addFailureToNodeGroup(ctx, failures, Rule.FAILURE_STRING_ORDER.replace(/\%a/g, group).replace(/\%b/g, () => {
                         if (next && prev) {
                             return `between "${prev}" and "${next}"`
-                        } else if (next) {
-                            return `after "${next}"`;
-                        } else {
-                            return (existing.length === 2) ? `after "${prev}"` : `before "${prev}"`;
                         }
+
+                        return next ? `before "${next}"` : `after "${prev}"`;
                     }));
                 }
             }
