@@ -32,4 +32,4 @@ Before adding your custom rule, be sure to write a test for it. Then, you should
 \`\`\`
 npm run verify
 \`\`\`
-`
+`;
