@@ -9,11 +9,11 @@ An array of `"string"` which a Component `tag` must use as a prefix.
 ### Config examples
 
 ```ts
-{ "require-prefix": [true, "ion"] }
+{ "ban-prefix": [true, "ion"] }
 ```
 
 ```ts
-{ "require-prefix": [true, "ion", "ionic"] }
+{ "ban-prefix": [true, "ion", "ionic"] }
 ```
 
 ## Schema
