@@ -1,4 +1,5 @@
 import * as ts from 'typescript';
+import { ComponentMetadata } from '../componentMemberOrderRule';
 
 export function evalText(text: string) {
     const fnStr = `return ${text};`;
@@ -53,7 +54,7 @@ export function getIndentationAtNode(node: ts.Node, sourceFile: ts.SourceFile): 
 }
 
 export function getFirstNonDecoratorToken(node: ts.Node): ts.Node|false {
-    
+
     let token: boolean|ts.Node = false;
     function isNonDecorator(node: ts.Node) {
         if (!token) token = !ts.isDecorator(node) && node;
@@ -80,20 +81,20 @@ export function firstGroupOutOfOrder(actual: string[], expected: string[]): fals
     return map.every(x => x) ? false : actual[map.findIndex((x) => x === false)];
 }
 
-export function count(arr: string[], key: string): number {
-    return arr.filter(x => x === key).length;
+export function count(arr: ComponentMetadata[], key: string): number {
+    return arr.filter(x => x.key === key).length;
 }
 
-export function checkGroupings(test: string[]): string[] {
+export function checkGroupings(test: ComponentMetadata[]): ComponentMetadata[] {
 
     const ungrouped: string[] = [];
-    
+
     // Loop through and save any items that occur more than once
     let counts: { [key: string]: number } = {};
     test.forEach((value) => {
-        if (counts[value] !== undefined) return;
-        const num = count(test, value);
-        if (num > 1) counts[value] = num;
+        if (counts[value.key] !== undefined) return;
+        const num = count(test, value.key);
+        if (num > 1) counts[value.key] = num;
     })
     const multiples = Object.keys(counts);
 
@@ -101,13 +102,13 @@ export function checkGroupings(test: string[]): string[] {
     // Then get all the items that occur more than once
     const map = test
         .map((value, index) => ({ value, index }))
-        .filter(x => multiples.includes(x.value))
-    
+        .filter(x => multiples.includes(x.value.key))
+
     // For each unique key, check all of the items of that key
     // and determine if they are in sequential order
     multiples.forEach((key) => {
         const sequential = map
-            .filter(x => x.value === key)
+            .filter(x => x.value.key === key)
             .every((curr, i, arr) => {
                 const next = arr[i + 1];
                 if (!next) return true;
@@ -115,6 +116,6 @@ export function checkGroupings(test: string[]): string[] {
             });
         if (!sequential) ungrouped.push(key);
     })
-    
-    return ungrouped;
+
+    return test.filter((comp) => ungrouped.includes(comp.key))
 }
