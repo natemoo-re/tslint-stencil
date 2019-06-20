@@ -61,7 +61,7 @@ export class Rule extends Lint.Rules.AbstractRule {
                 - \`own-prop\`, which refers to undecorated properties
                 - \`prop\`, which refers to \`@Prop()\` decorated properties
                 - \`state\`, which refers to \`@State()\` decorated properties
-                - \`stencil-method\`, which refers to Stencil methods (such as \`hostData\` or \`render\`)
+                - \`stencil-method\`, which refers to Stencil \`render()\` method
                 - \`watch\`, which refers to \`@Watch()\` decorated methods
                 - \`watched-prop\`, which refers to \`@Prop()\` decorated properties that have a \`@Watch()\` method
                 - \`watched-state\`, which refers to \`@State()\` decorated properties that have a \`@Watch()\` method
@@ -104,10 +104,10 @@ export class Rule extends Lint.Rules.AbstractRule {
       additionalProperties: false
     },
     optionExamples: [
-      `{ 
+      `{
                 "component-member-order": [
-                  true, 
-                  { 
+                  true,
+                  {
                     "order": [
                         "own-prop",
                         "element",
@@ -127,10 +127,10 @@ export class Rule extends Lint.Rules.AbstractRule {
                   }
                 ]
               }`,
-      `{ 
+      `{
                 "component-member-order": [
-                  true, 
-                  { 
+                  true,
+                  {
                     "order": false,
                     "watch-follows-prop": true
                   }

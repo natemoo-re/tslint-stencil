@@ -49,10 +49,6 @@ Ensures that Component lifecycle methods are ordered consistently
 
 Ensures that a Component's `tag` begins with the given prefix(es).
 
-### [`stencil-method-order`](docs/stencil-method-order.md)
-
-Ensures that Stencil methods (`hostData`, `render`) are ordered consistently
-
 ## Contributing
 
 Rules in the `src/` directory must be **camelCased** and end in **Rule**.
