@@ -16,12 +16,10 @@ One argument, which is an object, must be provided. It should contain an `"order
     - `own-prop`, which refers to undecorated properties
     - `prop`, which refers to `@Prop()` decorated properties
     - `state`, which refers to `@State()` decorated properties
-    - `stencil-method`, which refers to Stencil methods (such as `hostData` or `render`)
+    - `stencil-method`, which refers to Stencil \`render()\` method
     - `watch`, which refers to `@Watch()` decorated methods
     - `watched-prop`, which refers to `@Prop()` decorated properties that have a `@Watch()` method
     - `watched-state`, which refers to `@State()` decorated properties that have a `@Watch()` method
-
-
 
 ### Config examples
 

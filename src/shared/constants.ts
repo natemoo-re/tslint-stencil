@@ -6,7 +6,7 @@ export const LIFECYCLE_METHODS = [
   "componentDidUnload"
 ];
 
-export const STENCIL_METHODS = ["hostData", "render"];
+export const STENCIL_METHODS = ["render"];
 
 export const VERBOSE_COMPONENT_MEMBERS: Record<string, string> = {
   element: "@Element property",
@@ -18,7 +18,7 @@ export const VERBOSE_COMPONENT_MEMBERS: Record<string, string> = {
   "own-prop": "regular internal properties",
   prop: "@Prop properties without watcher",
   state: "@State properties without watcher",
-  "stencil-method": "render() or hostData() methods",
+  "stencil-method": "render() method",
   watch: "@Watch methods",
   "watched-prop": "@Prop properties with a watcher",
   "watched-state": "@State properties with a watcher"

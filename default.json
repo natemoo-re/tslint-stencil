@@ -32,12 +32,6 @@
         "methods": "multiline"
       }
     ],
-    "lifecycle-order": [true, "call-order"],
-    "stencil-method-order": [
-      true,
-      {
-        "order": ["hostData", "render"]
-      }
-    ]
+    "lifecycle-order": [true, "call-order"]
   }
 }
